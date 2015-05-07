@@ -1,0 +1,177 @@
+
+.imagefadein {
+height:100%; width:100%; background-color:white; opacity:0;
+
+    -webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 3s; /* Firefox < 16 */
+        -ms-animation: fadein 3s; /* Internet Explorer */
+         -o-animation: fadein 3s; /* Opera < 12.1 */
+            animation: fadein 3s;
+}
+
+@keyframes fadein {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+
+
+
+
+
+
+
+
+
+
+.bg {
+  background: url('http://thestarkmarket.com/thetatau/res/images/thetataubanner.PNG') no-repeat center center;
+  position: fixed;
+  width: 100%;
+  height: 350px; /*same height as jumbotron */
+  top:0;
+  left:0;
+  z-index: -1;
+}
+
+
+.ui_icons
+{
+	width: 20px;
+	padding-top:7px;
+	padding-bottom: 7px;
+	
+}
+
+.ui_imgs
+{
+	background-color: rgba(248, 248, 248, 0.9);
+	 box-shadow: 5px 5px 3px rgb(102, 102, 102);
+	  text-align: left; background-image:url(res/images/userimages/at1.jpg);
+	   background-repeat: no-repeat;
+	    background-size: cover; height: 175px;
+		 background-position: center center;
+		 padding:0;
+	}
+	
+	#padd
+	{
+		padding: 5px;
+	}
+
+.progress-bar
+{
+	line-height: 15px;
+}
+
+.mainbody
+{
+	background-color: rgba(77, 162, 188, 1);
+}
+.vertcent
+{
+	/* Internet Explorer 10 */
+display:-ms-flexbox;
+-ms-flex-pack:center;
+-ms-flex-align:center;
+
+/* Firefox */
+display:-moz-box;
+-moz-box-pack:center;
+-moz-box-align:center;
+
+/* Safari, Opera, and Chrome */
+display:-webkit-box;
+-webkit-box-pack:center;
+-webkit-box-align:center;
+
+/* W3C */
+display:box;
+box-pack:center;
+box-align:center;
+}
+
+.jumbotron {
+  height: 350px;
+  color: white;
+  text-shadow: #444 0 1px 1px;
+  background:transparent;
+}
+#clipped-title1 {
+    background: url('http://thestarkmarket.com/thetatau/res/images/gold.jpg') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+ 
+.curtain{    
+    position: fixed;
+	height: 100%;
+    width: 100%;
+    background-color: black;
+    z-index: 9999;
+    opacity: 0.74;
+	
+	}
+	
+	
+#clipped-title2 {
+    background: url('http://thestarkmarket.com/thetatau/res/images/gold.jpg') no-repeat top center;
+    background-size: cover;
+    color: #fff;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    cursor: pointer;
+}
+ 
+#clipped-title1 small {
+    font-size: 200px;
+    font-family: Anton, sans-serif;
+    text-align: center;
+    -webkit-transition: text-shadow 1s ease;
+    text-shadow: 0 0 1px rgba(0,0,0,.1);
+    margin: 0;
+    padding: 0;
+}
+ 
+#clipped-title2 small {
+    font-size: 110px;
+    font-family: Pacifico, sans-serif;
+    text-align: center;
+    -webkit-transition: text-shadow 1s ease;
+    text-shadow: 0 0 1px rgba(0,0,0,.1);
+    margin-top: -75px;
+    padding: 0;
+}
+
+#statbox
+{
+	border:2px solid #333; 
+	height: 50px;
+	border-radius:4px;
+}
