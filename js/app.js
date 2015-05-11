@@ -51,7 +51,7 @@ app.directive('newsfeed', function()
 		  		restrict: 'E',
 		  		controller: ['$scope', function($scope)
 				{
-					  $scope.myInterval = 2000;
+					  $scope.myInterval = 4000;
 					  var slides = $scope.slides = [];
 					  
 					  $scope.addSlide = function() {
@@ -66,7 +66,7 @@ app.directive('newsfeed', function()
 						$scope.addSlide();
 					  }
 				}],
-				templateUrl: 'html_plugins/newsFeed.html'
+				templateUrl: 'html_plugins/newsfeed.html'
 			};
 
 });

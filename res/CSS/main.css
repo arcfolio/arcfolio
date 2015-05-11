@@ -58,6 +58,28 @@ height:100%; width:100%; background-color:white; opacity:0;
   z-index: -1;
 }
 
+.carousel-control.right {
+    right: 0px;
+    left: auto;
+    background-image: none;
+    background-repeat: none;
+	width:2%;
+}
+.carousel-control.left {
+    right: auto;
+    left: 0;
+    background-image: none;
+    background-repeat: none;
+	width: 2%;
+}
+
+.carousel-indicators li {
+	border: 1px solid rgba(101, 101, 101)
+}
+
+.carousel-indicators .active {
+	background-color: rgba(166,166,166,1.00);
+}
 
 .ui_icons
 {

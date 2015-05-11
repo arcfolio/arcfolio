@@ -3,14 +3,23 @@
 	This directive is for the sliding newsfeed.
     
  -------------------------------------------------------------------------------------------------------------->
- 
-  <div style="height: 305px">
-    <carousel interval="myInterval">
+  
+  
+  <div style="height: 100%; width: 100%">
+    <carousel interval="myInterval" style="height:500px;">
       <slide ng-repeat="slide in slides" active="slide.active">
-        <img ng-src="{{slide.image}}" style="margin:auto;">
-        <div class="carousel-caption">
-          <h4>Slide {{$index}}</h4>
-          <p>{{slide.text}}</p>
+      	<div class="row">
+        	<div class="col-xs-12">
+            	<img class="thumbnail" ng-src="{{slide.image}}" style="margin-top:15px; width: 94%; margin-left:3%;">
+            </div>
+        </div>
+      	<div class="row">
+        	<div class="col-xs-1"></div>
+            	<div class="col-xs-10" style="text-align:left">
+                  <h4>Slide {{$index}}</h4>
+                  <p>{{slide.text}} afsadsf ;lkfd ;ljaksd;asdf j;sadf; al jdf;klaj ds; lfja; flkjasd;l fkja;dlf jas;df jas;dlfjas;sdlfj as;fjsadfjkas;lkdfjsad;lfjasd;lfjasd;klfja ta;krjwe;lrjw;erjqw;erjqwe;</p>
+            </div>
+        	<div class="col-xs-1"></div>
         </div>
       </slide>
     </carousel>
