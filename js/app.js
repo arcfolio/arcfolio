@@ -1,10 +1,11 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dinamically.//*/
 app.config(function($routeProvider, $locationProvider) 
 {
+	
 	
 	console.log("router working...");
     $locationProvider.html5Mode(true);
@@ -26,8 +27,11 @@ app.config(function($routeProvider, $locationProvider)
 	{
 		redirectTo: '/arcfolio/index.php'
 	});
+	
+	
 			
 });
+
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** navbar ** */

@@ -40,7 +40,7 @@
                 </div-->
       
       <div class="row visible-lg-block visible-md-block" style="margin-left: 0;">
-        <div class="col-xs-12" style="background-color: rgba(248, 248, 248, 0.9); text-align: center; box-shadow: 5px 5px 3px rgb(102, 102, 102); margin-bottom:15px; height:500px;">
+        <div class="col-xs-12" style="background-color: rgba(248, 248, 248, 0.9); text-align: center; box-shadow: 5px 5px 3px rgb(102, 102, 102); margin-bottom:15px; height:auto;">
          
           <newsfeed></newsfeed>
           
@@ -52,12 +52,14 @@
         <div class="col-xs-12">
           <div class="row">
             <div class="col-xs-12">
-              <h3 style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); margin-top: 15px; font-weight: 700;">Login.<small ng-click="register()" style="font-family: &quot;ruda&quot;,sans-serif; margin-left: 19px; color: rgb(153, 153, 153); font-weight: 700; cursor: pointer;">Create an Account</small></h3>
+              <h3 ng-hide="registerBool"  style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); margin-top: 15px; font-weight: 700;">Login.<small ng-click="register()" style="font-family: &quot;ruda&quot;,sans-serif; margin-left: 19px; color: rgb(153, 153, 153); font-weight: 700; cursor: pointer;">Create an Account</small></h3>
+              <h3 ng-show="registerBool"  style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); margin-top: 15px; font-weight: 700;">Create an Account.<small ng-click="register()" style="font-family: &quot;ruda&quot;,sans-serif; margin-left: 19px; color: rgb(153, 153, 153); font-weight: 700; cursor: pointer;">Login</small></h3>
             </div>
           </div>
           <div class="row" style="padding-bottom:15px;">
-            <div class="col-xs-12">
-              <form action="ui.php" class="form-signin">
+            <div class="col-xs-12" style="overflow:hidden;">
+            	<!-- form for regular login, hides if register boolean is set to true-->
+              <form ng-hide="registerBool" action="ui.php" class="form-signin">
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <label style="text-align: left;" for="inputEmail">Email address</label>
                   <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115); border-radius: 4px;" id="inputEmail" class="form-control" placeholder="Email address" required="false" autofocus type="email">
@@ -66,10 +68,6 @@
                   <label for="inputPassword">Password</label>
                   <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115);border-radius: 4px;" id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
                 </div>
-                <div ng-show="registerBool" style="margin: 10px 0px; text-align: left; text-indent: 9px;">
-                  <label for="inputPassword">Re-Enter Password</label>
-                  <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115);border-radius: 4px;" id="inputPassword" class="form-control" placeholder="Re-Enter Password" type="password">
-                </div>
                 <div class="checkbox">
                   <label style="font-weight:bold;">
                     <input value="remember-me" type="checkbox">
@@ -77,12 +75,32 @@
                 </div>
                 <button style="background-color:rgb(26, 0, 115); border-radius:4px;" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
               </form>
+                <!-- form for registering account, hides by default -->
+              <form ng-show="registerBool" action="ui.php" class="form-signin">
+                <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
+                  <label style="text-align: left;" for="inputEmail">Email address</label>
+                  <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115); border-radius: 4px;" id="inputEmail" class="form-control" placeholder="Email address" required="false" autofocus type="email">
+                </div>
+                <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
+                  <label for="inputPassword">Password</label>
+                  <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115);border-radius: 4px;" id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
+                </div>
+                <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
+                  <label for="inputPassword">Re-Enter Password</label>
+                  <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115);border-radius: 4px;" id="inputPassword" class="form-control" placeholder="Re-Enter Password" type="password">
+                </div>
+                <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
+                  <label for="inputPassword">Are you human?</label>
+                  <div vc-recaptcha key="'6LcFmQYTAAAAAAVYY5zIgDjIJuWxCgkWsMdoCNSx'"></div>
+                  </div>
+                <button style="background-color:rgb(26, 0, 115); border-radius:4px;" class="btn btn-lg btn-primary btn-block" type="submit">Create An Account.</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
       <div class="row visible-xs-block visible-sm-block">
-        <div class="col-xs-12" style="background-color: rgba(248, 248, 248, 0.9); text-align: center; box-shadow: 5px 5px 3px rgb(102, 102, 102); padding-bottom:15px; height:500px;">
+        <div class="col-xs-12" style="background-color: rgba(248, 248, 248, 0.9); text-align: center; box-shadow: 5px 5px 3px rgb(102, 102, 102); padding-bottom:15px; height:auto;">
         	
           <newsfeed></newsfeed>
         </div>
