@@ -10,52 +10,68 @@ class errorParser
 	{
 		
 		//unpackage json string into a php array
-		$obj = json_decode($package);
+		$obj = json_decode($package, true);
 					
 		//check if type is default/user//
 		if($type == '' || $type == 'user')
 		{
+			$this->email = $obj[email];
+			$this->pass1 = $obj[pass1];
+			$this->pass2 = $obj[pass2];
 			//check that no inputs are null.// (note: pass2 does not need a null check, it is match checked against pass1 later.)//
 			
-			//if($obj->username == NULL) 	{ $errors[] = "Username"; }
+			//if($this->username == NULL) 	{ $errors[] = "Username"; }
 			
-			if($obj->email == NULL) 		{ $errors[] = "Email"; }
-			if($obj->pass1 == NULL) 		{ $errors[] = "Password"; }
+			if($this->email == NULL) 		{ $errors[] = "Email"; }
+			if($this->pass1 == NULL) 		{ $errors[] = "Password"; }
 			
 			$errors[] = "spacer";
 			
-			if ( preg_match('/\s/',$obj->email) )  {$errors[] = '<b>Email</b> cannot contain spaces';}
+			if ( preg_match('/\s/',$this->email) )  {$errors[] = '<b>Email</b> cannot contain spaces';}
 			
-			//if(strpos($this->email, '@msstate.edu') === FALSE && $this->email != NULL)	{ $errors[] = "<b>Email</b> is not an msstate.edu Account"; }
+			if(strpos($this->email, '@') === FALSE && $this->email != NULL)	{ $errors[] = "<b>Email</b> is not a legitimate email."; }
 			
 			//check that email/password is not overly long i.e. check for SQL INJECTION.//
-			if(strlen($obj->email) > 40 && $this->email != NULL)	{ $errors[] = "<b>Email</b> is not valid."; }
-			if(strlen($obj->pass1) > 30 && $this->pass1 != NULL)	{ $errors[] = "<b>Password</b> must be less than 30 chars."; }
+			if(strlen($this->email) > 40 && $this->email != NULL)	{ $errors[] = "<b>Email</b> is not valid."; }
+			if(strlen($this->pass1) > 30 && $this->pass1 != NULL)	{ $errors[] = "<b>Password</b> must be less than 30 chars."; }
 			
 			//keep a standard of password security.//
-			if(strlen($obj->pass1) < 5 && $this->pass1 != NULL)	{ $errors[] = "<b>Password</b> must be greater than 5 chars."; }
+			if(strlen($this->pass1) < 5 && $this->pass1 != NULL)	{ $errors[] = "<b>Password</b> must be greater than 5 chars."; }
 			
 			//check that passwords match..//
-			if($obj->pass1 !== $obj->pass2 && $obj->pass1 != NULL)	{ $errors[] = "<b>Passwords</b> do not match"; }
+			if($this->pass1 !== $this->pass2 && $this->pass1 != NULL)	{ $errors[] = "<b>Passwords</b> do not match"; }
 			
 			//check that email is not already in db.//
-			$emailDUPLICATE = mysql_query("SELECT msue FROM users WHERE email='$obj->email' AND `delete`='0'");
-			if($emailDUPLICATE)		{ $errors[] = "<b>Email</b> is already in our system"; }
+			$emailDUPLICATE = mysql_query("SELECT email FROM  `members` WHERE email =  '$this->email'");
+			if(mysql_num_rows($emailDUPLICATE) > 0)		{ $errors[] = "<b>Email</b> is already in our system"; }
 		}
 		
 			
 		// determine if errors exist //
 		if(count($errors) != 1)
 		{
+			echo 'errrors found';
 			// errors exist, run them through the error message generator //
-			return $this->errorMessageGenerator($errors);
+			$this->errorarray = $this->errorMessageGenerator($errors);
+			$this->errorsfound = TRUE;
 		}
 		else
 		{
+			echo count($errors);
 			// no errors exist, continue processing data //
-			return TRUE;
+			$this->errorsfound = FALSE;
 		}
 				
+	}
+	
+	public function get_errors()
+	{
+		return $this->errorarray;
+	}
+	
+	public function errors()
+	{
+		return $this->errorsfound;
 	}
 	
 	private function errorMessageGenerator($e)

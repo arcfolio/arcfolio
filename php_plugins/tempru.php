@@ -1,5 +1,5 @@
 <?php
-/*
+
 //grab defaults and autoloader
 include('IAL.php');
 
@@ -22,7 +22,7 @@ else //errors found.
 	echo $errorFreeData;
 }
 
-*/
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 *	This class takes an errorParsed json string and creates a user row in the users table of the database.
@@ -39,15 +39,13 @@ class registerUser
 		
 		//encrypt password and generate a salt for password using our encryptPassword() class.//
 		$ProtectedPass = new encryptPassword($obj->pass1);
-		$ProtectedPass = $ProtectedPass->get_array();
 		
-		var_dump($ProtectedPass);
 		//generate creation dates.//
 		$date = date_create();
 		$date = date_format($date, 'Y-m-d H:i:s');
 		
 		// add user to db //
-		$sql = mysql_query("INSERT INTO members (email, password, salt, creationDate, lastLogin) VALUES( '$obj->email', '$ProtectedPass[password]', '$ProtectedPass[salt]', '$date', '$date')") or die (mysql_error());
+		$sql = mysql_query("INSERT INTO users (email, password, salt, creationDate, lastLogin) VALUES( '$obj->email', '$ProtectedPass->password', '$ProtectedPass->salt', '$date', '$date')") or die (mysql_error());
 		
 		// grab newly generated db id and set it as the users id //
 		$userId = mysql_insert_id();
@@ -56,16 +54,11 @@ class registerUser
 		//email user activation code//
 		
 		//generate a json string for angular to process.//
-		$this->marray = array(
+		$array = array(
 			"failure" => false,
 			"msg" => "Success! you will receive an activation email shortly."
 			);
-			echo 'probably owrks';	
-	}
-	
-	public function get_string()
-	{
-			return $this->marray;	
+		return json_encode($array);		
 	}
 }
 
