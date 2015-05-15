@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="encryptPassword.php" server="ftp.thestarkmarket.com/arcfolio/" local="130759568413436398" remote="130759747800000000" Dst="2" />
+<file name="encryptPassword.php" server="ftp.thestarkmarket.com/arcfolio/" local="130761280186454999" remote="130761459600000000" Dst="2" />
 <file name="IAL.php" server="ftp.thestarkmarket.com/arcfolio/" local="130759568420244354" remote="130759747800000000" Dst="2" />
-<file name="errorParser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130759568422190245" remote="130759747800000000" Dst="2" />
+<file name="errorParser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130761299749674041" remote="130761479400000000" Dst="2" />
 <file name="mysqlConnector.php" server="ftp.thestarkmarket.com/arcfolio/" local="130759568422210127" remote="130759747800000000" Dst="2" />
-<file name="registerUser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130759568426104960" remote="130759747800000000" Dst="2" />
+<file name="registerUser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130761281391859261" remote="130761461400000000" Dst="2" />
+<file name="antiMalwareParser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130761273597252415" remote="130761453600000000" Dst="2" />
+<file name="test.php" server="ftp.thestarkmarket.com/arcfolio/" local="130761291195154091" remote="130761471000000000" Dst="2" />
+<file name="tempru.php" server="ftp.thestarkmarket.com/arcfolio/" local="130761275268585131" remote="130761454800000000" Dst="2" />
 </dwsync>
