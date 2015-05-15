@@ -16,7 +16,7 @@
 
     <link rel="icon" href="http://www.thestarkmarket.com/favicon.ico">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="http://www.thestarkmarket.com/arcfolio/res/CSS/main.css" />
+	<link rel="stylesheet" type="text/css" href="res/CSS/main.css" />
 	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Ruda:400,900,700' rel='stylesheet' type='text/css'>
     <style>
@@ -90,7 +90,7 @@
           		</a>
             </li>
             <li style="padding-top: 0px; margin-top: 0px; padding-right: 0px;">
-                <a style="padding-top: 12px;" href="http://www.twitter.com">
+                <a style="padding-top: 12px;" href="http://www.facebook.com">
           <img src="res/images/fa.fw.png" style="width: 25px;">
           		</a>
             </li>
