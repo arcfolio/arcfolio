@@ -16,7 +16,7 @@
 
     <link rel="icon" href="http://www.thestarkmarket.com/favicon.ico">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="http://www.thestarkmarket.com/arcfolio/res/CSS/main.css" />
+	<link rel="stylesheet" type="text/css" href="res/CSS/main.css" />
 	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Ruda:400,900,700' rel='stylesheet' type='text/css'>
     <style>
