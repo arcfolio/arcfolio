@@ -78,10 +78,13 @@ app.directive('newsfeed', function()
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('registerController', function($scope) {
+app.controller('registerController', function($scope, $http, $rootScope) {
+	
+	$scope.user = null;
 	
 	//this hides the re-enter password input in default.html//
 	$scope.registerBool = false;
+	$scope.response = null;
 	
 	
 	//this toggles the re-enter password input.
@@ -92,6 +95,64 @@ app.controller('registerController', function($scope) {
 		else if($scope.registerBool == true)
 		{ $scope.registerBool = false }
 		};
+		
+		
+	$scope.createAccount = function(data)
+		{
+			console.log("createaccount clicked");
+		  //configure get data to send to php//
+		  var config = {
+			params: {
+			  accountData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		  $http.post("php_plugins/createAccount.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			  
+			  //create global array with response data//
+			  $rootScope.user = data;
+			  
+			  //check if response data shows a backend failure.//
+			  if($rootScope.user.failure == true || $rootScope.user == null)
+			  {
+				  //process backend failure//
+				  	console.log("ERROR://///////////");
+					console.log($rootScope.user);
+					
+					$rootScope.user = null;
+					
+					$scope.response = "ERROR: " + data.msg;
+					$scope.responsecolor = "red";
+					$scope.responsedisable = "";
+			  }
+			  //response data is without backend failure//
+			  else if($rootScope.user.failure == false)
+			  {
+				  //process correct data//
+				  	console.log("SUCESSFUL ACCOUNT CREATION");
+					console.log($rootScope.user);
+					$scope.response = "SUCCESS: " + data.msg;
+					$scope.responsecolor = "green";
+					$scope.responsedisable = "disabled";
+			  }
+			  else
+			  {
+				  console.log(data);}
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					console.log("CONNECTIVITY ERROR");
+			});
+		};
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+		
 	
 });
 

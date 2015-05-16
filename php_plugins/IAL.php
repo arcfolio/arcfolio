@@ -15,7 +15,7 @@
  
  //configure autoloader.//
 function my_autoloader($class) {
-	require($class.'.php');
+	require('../php_library/'.$class.'.php');
 }
 
 spl_autoload_register('my_autoloader');

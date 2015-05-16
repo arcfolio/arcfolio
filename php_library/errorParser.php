@@ -27,53 +27,42 @@ class errorParser
 			
 			$errors[] = "spacer";
 			
-			if ( preg_match('/\s/',$this->email) )  {$errors[] = '<b>Email</b> cannot contain spaces';}
+			if ( preg_match('/\s/',$this->email) )  {$errors[] = 'Email cannot contain spaces';}
 			
-			if(strpos($this->email, '@') === FALSE && $this->email != NULL)	{ $errors[] = "<b>Email</b> is not a legitimate email."; }
+			if(strpos($this->email, '@') === FALSE && $this->email != NULL)	{ $errors[] = "Email is not a legitimate email"; }
 			
 			//check that email/password is not overly long i.e. check for SQL INJECTION.//
-			if(strlen($this->email) > 40 && $this->email != NULL)	{ $errors[] = "<b>Email</b> is not valid."; }
-			if(strlen($this->pass1) > 30 && $this->pass1 != NULL)	{ $errors[] = "<b>Password</b> must be less than 30 chars."; }
+			if(strlen($this->email) > 40 && $this->email != NULL)	{ $errors[] = "Email is not valid"; }
+			if(strlen($this->pass1) > 30 && $this->pass1 != NULL)	{ $errors[] = "Password must be less than 30 chars"; }
 			
 			//keep a standard of password security.//
-			if(strlen($this->pass1) < 5 && $this->pass1 != NULL)	{ $errors[] = "<b>Password</b> must be greater than 5 chars."; }
+			if(strlen($this->pass1) < 5 && $this->pass1 != NULL)	{ $errors[] = "Password must be greater than 5 chars"; }
 			
 			//check that passwords match..//
-			if($this->pass1 !== $this->pass2 && $this->pass1 != NULL)	{ $errors[] = "<b>Passwords</b> do not match"; }
+			if($this->pass1 !== $this->pass2 && $this->pass1 != NULL)	{ $errors[] = "Passwords do not match"; }
 			
 			//check that email is not already in db.//
 			$emailDUPLICATE = mysql_query("SELECT email FROM  `members` WHERE email =  '$this->email'");
-			if(mysql_num_rows($emailDUPLICATE) > 0)		{ $errors[] = "<b>Email</b> is already in our system"; }
+			if(mysql_num_rows($emailDUPLICATE) > 0)		{ $errors[] = "Email is already in our system"; }
 		}
 		
 			
 		// determine if errors exist //
 		if(count($errors) != 1)
 		{
-			echo 'errrors found';
 			// errors exist, run them through the error message generator //
-			$this->errorarray = $this->errorMessageGenerator($errors);
+			$this->json_errors = $this->errorMessageGenerator($errors);
 			$this->errorsfound = TRUE;
 		}
 		else
 		{
-			echo count($errors);
 			// no errors exist, continue processing data //
 			$this->errorsfound = FALSE;
 		}
 				
 	}
 	
-	public function get_errors()
-	{
-		return $this->errorarray;
-	}
-	
-	public function errors()
-	{
-		return $this->errorsfound;
-	}
-	
+	//takes an array of error messages and converts them into a formated user error message.//
 	private function errorMessageGenerator($e)
 	{
 		//errorMessageGenerator is complex and hard to follow//
@@ -121,7 +110,7 @@ class errorParser
 		$array = array(
 		"errors" => $e,
 		"failure" => true,
-		"errormsg" => $errormsg,
+		"msg" => $errormsg,
 		);
 		return json_encode($array);
 	}
