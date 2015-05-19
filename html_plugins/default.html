@@ -91,7 +91,7 @@
                 </div>
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <label for="inputPassword">Are you human?</label>
-                  <div vc-recaptcha key="'6LcFmQYTAAAAAAVYY5zIgDjIJuWxCgkWsMdoCNSx'"></div>
+                  <div vc-recaptcha on-success="setResponse(response)" key="'6LcFmQYTAAAAAAVYY5zIgDjIJuWxCgkWsMdoCNSx'"></div>
                   </div>
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <p ng-show="response" style="font-weight: bold; color: {{responsecolor}};">{{ response }}</p>

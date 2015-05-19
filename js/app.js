@@ -78,7 +78,7 @@ app.directive('newsfeed', function()
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('registerController', function($scope, $http, $rootScope) {
+app.controller('registerController', function($scope, $http, $rootScope, vcRecaptchaService) {
 	
 	$scope.user = null;
 	
@@ -96,9 +96,20 @@ app.controller('registerController', function($scope, $http, $rootScope) {
 		{ $scope.registerBool = false }
 		};
 		
+		$scope.setResponse = function (response) {
+        // send the `response` to your server for verification.
+		console.log(response);console.log("worsk");
+    };
+		
 		
 	$scope.createAccount = function(data)
 		{
+			
+			if(data != null)
+			{
+			data.response = vcRecaptchaService.getResponse();
+			}
+			
 			console.log("createaccount clicked");
 		  //configure get data to send to php//
 		  var config = {

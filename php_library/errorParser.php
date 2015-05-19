@@ -18,6 +18,7 @@ class errorParser
 			$this->email = $obj[email];
 			$this->pass1 = $obj[pass1];
 			$this->pass2 = $obj[pass2];
+			$captcha = $obj[response];
 			//check that no inputs are null.// (note: pass2 does not need a null check, it is match checked against pass1 later.)//
 			
 			//if($this->username == NULL) 	{ $errors[] = "Username"; }
@@ -44,6 +45,20 @@ class errorParser
 			//check that email is not already in db.//
 			$emailDUPLICATE = mysql_query("SELECT email FROM  `members` WHERE email =  '$this->email'");
 			if(mysql_num_rows($emailDUPLICATE) > 0)		{ $errors[] = "Email is already in our system"; }
+			
+			//form must have no other errors before checking recaptcha or google will deny it.
+			if(count($errors) == 1)
+		{
+			/////////////////////////google recaptcha code//////////////////////////////////////////////
+			if(!$captcha) {$errors[] = 'Captcha must be checked';}
+			else{
+			$response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LcFmQYTAAAAAMR4m-eenxq5Vlj_9r9U-IlZ4WKS&response=".$captcha);
+			$response = json_decode($response, true);
+			if($response["success"] == false) {$errors[] = 'We have detected that you are a robot, please try again.'.$response[success].' asdf';}
+			}
+			////////////////////////////////////////////////////////////////////////////////////////////
+		}
+		
 		}
 		
 			
