@@ -47,36 +47,36 @@
         </div>
       </div>
     </div>
-    <div  ng-controller="registerController" class="col-md-4 col-md-pull-8">
+    <div class="col-md-4 col-md-pull-8">
       <div style="background-color: rgba(248, 248, 248, 0.9); text-align: center; box-shadow: 5px 5px 3px rgb(102, 102, 102); padding-bottom:15px; margin-bottom:15px;" class="row">
         <div class="col-xs-12">
           <div class="row">
             <div class="col-xs-12">
-              <h3 ng-hide="registerBool"  style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); margin-top: 15px; font-weight: 700;">Login.<small ng-click="register()" style="font-family: &quot;ruda&quot;,sans-serif; margin-left: 19px; color: rgb(153, 153, 153); font-weight: 700; cursor: pointer;">Create an Account</small></h3>
-              <h3 ng-show="registerBool"  style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); margin-top: 15px; font-weight: 700;">Create an Account.<small ng-click="register()" style="font-family: &quot;ruda&quot;,sans-serif; margin-left: 19px; color: rgb(153, 153, 153); font-weight: 700; cursor: pointer;">Login</small></h3>
+              <h3 ng-hide="$root.registerBool"  style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); margin-top: 15px; font-weight: 700;">Login.<small ng-click="$root.register()" style="font-family: &quot;ruda&quot;,sans-serif; margin-left: 19px; color: rgb(153, 153, 153); font-weight: 700; cursor: pointer;">Create an Account</small></h3>
+              <h3 ng-show="$root.registerBool"  style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); margin-top: 15px; font-weight: 700;">Create an Account.<small ng-click="$root.register()" style="font-family: &quot;ruda&quot;,sans-serif; margin-left: 19px; color: rgb(153, 153, 153); font-weight: 700; cursor: pointer;">Login</small></h3>
             </div>
           </div>
           <div class="row" style="padding-bottom:15px;">
             <div class="col-xs-12" style="overflow:hidden;">
             	<!-- form for regular login, hides if register boolean is set to true-->
-              <form ng-hide="registerBool" action="ui.php" class="form-signin">
+              <form  ng-controller="loginController" ng-hide="$root.registerBool" class="form-signin">
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <label style="text-align: left;" for="inputEmail">Email address</label>
-                  <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115); border-radius: 4px;" id="inputEmail" class="form-control" placeholder="Email address" required="false" autofocus type="email">
+                  <input ng-model="loginInfo.email" style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115); border-radius: 4px;" id="inputEmail" class="form-control" placeholder="Email address" required="false" autofocus type="text">
                 </div>
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <label for="inputPassword">Password</label>
-                  <input style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115);border-radius: 4px;" id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
+                  <input ng-model="loginInfo.password" style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115);border-radius: 4px;" id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
                 </div>
                 <div class="checkbox">
                   <label style="font-weight:bold;">
-                    <input value="remember-me" type="checkbox">
+                    <input ng-model="login.remember" value="remember-me" type="checkbox">
                     Remember me </label>
                 </div>
-                <button style="background-color:rgb(26, 0, 115); border-radius:4px;" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button ng-click="login(loginInfo)" style="background-color:rgb(26, 0, 115); border-radius:4px;" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
               </form>
                 <!-- form for registering account, hides by default -->
-              <form ng-show="registerBool" class="form-signin">
+              <form  ng-controller="registerController" ng-show="$root.registerBool" class="form-signin">
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <label style="text-align: left;" for="inputEmail">Email address</label>
                   <input ng-model="user.email" style="text-align:center;font-weight: bold; color: rgb(26, 0, 115); border: 2px solid rgb(26, 0, 115); border-radius: 4px;" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus type="text">

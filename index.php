@@ -32,6 +32,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular-cookies.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
+	<script src="js/sessionsService.js"></script>
 	<script src="js/angular-recaptcha.min.js"></script>
 	<script src="js/app.js"></script>
     

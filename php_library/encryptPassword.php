@@ -13,9 +13,9 @@ class encryptPassword
 		$this->salt = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
 		
 		//append salt to password, run md5 hashing algorithm.//
-		$this->encyptedPassword = md5($password . $salt);
+		$this->encyptedPassword = md5($password . $this->salt);
 		
-		return array("password" => $encyptedPassword, "salt" => $salt);
+		return array("password" => $encyptedPassword, "salt" => $this->salt);
 	}
 	
 	public function get_array()

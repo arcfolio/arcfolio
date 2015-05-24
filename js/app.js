@@ -1,5 +1,5 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dinamically.//*/
@@ -28,7 +28,23 @@ app.config(function($routeProvider, $locationProvider)
 		redirectTo: '/arcfolio/index.php'
 	});
 	
+});
 	
+
+app.run(function($rootScope) {
+	//this hides the re-enter password input in default.html//
+	$rootScope.registerBool = false;
+	$rootScope.response = null;
+	
+	
+	//this toggles the re-enter password input.
+	$rootScope.register = function() {
+		console.log("clicked");
+		if($rootScope.registerBool == false)
+		{ $rootScope.registerBool = true; }
+		else if($rootScope.registerBool == true)
+		{ $rootScope.registerBool = false }
+		};
 			
 });
 
@@ -76,25 +92,69 @@ app.directive('newsfeed', function()
 });
 
 
+
+
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('registerController', function($scope, $http, $rootScope, vcRecaptchaService) {
-	
-	$scope.user = null;
-	
-	//this hides the re-enter password input in default.html//
-	$scope.registerBool = false;
-	$scope.response = null;
-	
-	
-	//this toggles the re-enter password input.
-	$scope.register = function() {
-		console.log("clicked");
-		if($scope.registerBool == false)
-		{ $scope.registerBool = true; }
-		else if($scope.registerBool == true)
-		{ $scope.registerBool = false }
+app.controller('loginController', function($scope, $http, Session) {
+		
+		$scope.loginInfo = null;
+		
+		$scope.login = function (data) 
+		{
+			
+			console.log("login clicked");
+		  //configure get data to send to php//
+		  var config = {
+			params: {
+			  loginData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		  $http.post("php_plugins/login.php", null, config)
+			.success(function (data, status, headers, config, Session)
+			{
+			  //finish animation process here//
+			  
+			  
+			  //check if response data shows a backend failure.//
+			  if(data.failure == true || data == null)
+			  {
+				  //process backend failure//
+				  	console.log("ERROR://///////////");
+					console.log(data);
+					
+			  }
+			  //response data is without backend failure//
+			  else if(data.email != null)
+			  {
+				  //process correct data//
+				  	console.log("SUCESSFUL SESSION CREATION");
+					
+			  		Session.login(data);
+			  }
+			  else
+			  {
+				  console.log(data); console.log("hmmm");}
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					console.log("CONNECTIVITY ERROR");
+			});
 		};
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+		
+	
+	});
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+** registerController ** */
+app.controller('registerController', function($scope, $http, vcRecaptchaService) {
+	
 		
 		$scope.setResponse = function (response) {
         // send the `response` to your server for verification.
@@ -125,28 +185,27 @@ app.controller('registerController', function($scope, $http, $rootScope, vcRecap
 			{
 			  //finish animation process here//
 			  
-			  //create global array with response data//
-			  $rootScope.user = data;
+			  $scope.data = data;
 			  
 			  //check if response data shows a backend failure.//
-			  if($rootScope.user.failure == true || $rootScope.user == null)
+			  if($scope.data.failure == true || $scope.data == null)
 			  {
 				  //process backend failure//
 				  	console.log("ERROR://///////////");
-					console.log($rootScope.user);
+					console.log($scope.data);
 					
-					$rootScope.user = null;
+					$scope.data = null;
 					
 					$scope.response = "ERROR: " + data.msg;
 					$scope.responsecolor = "red";
 					$scope.responsedisable = "";
 			  }
 			  //response data is without backend failure//
-			  else if($rootScope.user.failure == false)
+			  else if($scope.data.failure == false)
 			  {
 				  //process correct data//
 				  	console.log("SUCESSFUL ACCOUNT CREATION");
-					console.log($rootScope.user);
+					console.log($scope.data);
 					$scope.response = "SUCCESS: " + data.msg;
 					$scope.responsecolor = "green";
 					$scope.responsedisable = "disabled";
