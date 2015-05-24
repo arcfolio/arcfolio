@@ -96,7 +96,7 @@ app.directive('newsfeed', function()
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('loginController', function($scope, $http, Session) {
+app.controller('loginController', function($scope, $http, Session, $location) {
 		
 		$scope.loginInfo = null;
 		
@@ -114,7 +114,7 @@ app.controller('loginController', function($scope, $http, Session) {
 		  //loading animation goes here//
 		  
 		  $http.post("php_plugins/login.php", null, config)
-			.success(function (data, status, headers, config, Session)
+			.success(function (data, status, headers, config)
 			{
 			  //finish animation process here//
 			  
@@ -134,6 +134,13 @@ app.controller('loginController', function($scope, $http, Session) {
 				  	console.log("SUCESSFUL SESSION CREATION");
 					
 			  		Session.login(data);
+					
+					console.log(Session.isLoggedIn());
+					console.log(Session.id);
+					console.log(Session.email);
+					console.log(Session.password);
+					
+					$location.path('/arcfolio/user');
 			  }
 			  else
 			  {
