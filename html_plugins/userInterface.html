@@ -23,7 +23,7 @@
                                         </a>
                                       </div>
                                       <div style="text-align: center; padding-left: 10px;" class="media-body">
-                                        <h3 style=" font-size:20px; font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); font-weight: 700; margin-top: 17px;" class="media-heading" id="media-heading">Curtis Reed</h3>
+                                        <h3 style=" font-size:20px; font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); font-weight: 700; margin-top: 17px;" class="media-heading" id="media-heading">{{ email }}</h3>
                                         <p style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(153, 153, 153); font-weight: 700; margin-left: 19px; font-size: 10px; text-align: left; width: 100%;">Manage Account</p></div>
                                       </div>
                                       
@@ -74,7 +74,7 @@
                                     
                                     <div class="media">
                                       <div style="text-align: center; padding-left: 10px;" class="media-body">
-                                        <h3 style=" font-size:20px; font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); font-weight: 700; margin-top: 17px;" class="media-heading" id="media-heading">Curtis Reed</h3>
+                                        <h3 style=" font-size:20px; font-family: &quot;ruda&quot;,sans-serif; color: rgb(26, 0, 115); font-weight: 700; margin-top: 17px;" class="media-heading" id="media-heading">{{ email  }}</h3>
                                         <p style="font-family: &quot;ruda&quot;,sans-serif; color: rgb(153, 153, 153); font-weight: 700; margin-left: 19px; font-size: 10px; text-align: left; width: 100%;">Manage Account</p></div>
                                       </div>
                                       
@@ -98,6 +98,21 @@
                                        	</div>
                                     </div>
                                 </div>
+
+
+<div class="bs-docs-section" ng-controller="PopoverDemoCtrl">
+
+<div class="bs-example" style="padding-bottom: 24px;">
+
+
+    <!-- You can use a custom html template with the `data-template` attr -->
+    <button type="button" class="btn btn-lg btn-danger" title="{{popover.title}}" data-content="{{popover.content}}" data-template="popover/popover.demo.tpl.html" data-animation="am-flip-y" data-auto-close="1" bs-popover>Custom Popover
+      <br />
+      <small>(using data-template)</small>
+    </button>
+
+ </div>
+  </div>
                                 
                                 <div class="row" style="background-color: rgba(248, 248, 248, 0.9); text-align: center; box-shadow: 5px 5px 3px rgb(102, 102, 102); margin-bottom:15px; margin-bottom:10px; margin-right: 0px;">
                                     <div class="col-xs-12">

@@ -1,11 +1,10 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'mgcrea.ngStrap', 'flow']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dinamically.//*/
-app.config(function($routeProvider, $locationProvider) 
+app.config(function($routeProvider, $locationProvider, flowFactoryProvider) 
 {
-	
 	
 	console.log("router working...");
     $locationProvider.html5Mode(true);
@@ -22,13 +21,30 @@ app.config(function($routeProvider, $locationProvider)
 		templateUrl: 'html_plugins/userInterface.html',
 		controller: 'testController2'
   	})
+	
+	.when('/arcfolio/uploadtest', 
+		{
+		templateUrl: 'html_plugins/uploadtest.html',
+		controller: 'testController2'
+  	})
 	//send all other pages back to index.
     .otherwise(
 	{
 		redirectTo: '/arcfolio/index.php'
 	});
 	
+	flowFactoryProvider.defaults = {
+    target: 'upload.php',
+    permanentErrors: [404, 500, 501],
+    maxChunkRetries: 1,
+    chunkRetryInterval: 5000,
+    simultaneousUploads: 4
+  };
+  flowFactoryProvider.on('catchAll', function (event) {
+    console.log('catchAll', arguments);
+  });
 });
+
 	
 
 app.run(function($rootScope) {
@@ -45,7 +61,7 @@ app.run(function($rootScope) {
 		else if($rootScope.registerBool == true)
 		{ $rootScope.registerBool = false }
 		};
-			
+	
 });
 
 
@@ -126,6 +142,11 @@ app.controller('loginController', function($scope, $http, Session, $location) {
 				  	console.log("ERROR://///////////");
 					console.log(data);
 					
+					
+					$scope.response = "ERROR: Your email or password is incorrect.";
+					$scope.responsecolor = "red";
+					$scope.responsedisable = "";
+					
 			  }
 			  //response data is without backend failure//
 			  else if(data.email != null)
@@ -144,12 +165,22 @@ app.controller('loginController', function($scope, $http, Session, $location) {
 			  }
 			  else
 			  {
-				  console.log(data); console.log("hmmm");}
+				  console.log(data); console.log("hmmm");
+				  
+					$scope.response = "ERROR: Your email or password is incorrect.";
+					$scope.responsecolor = "red";
+					$scope.responsedisable = "";
+				  
+				  }
 			  
 			})
 			//there was an error sending the data to php.//
 			.error(function (data, status, headers, config)
 			{
+				
+					$scope.response = "ERROR: You do not have access to the Internet.";
+					$scope.responsecolor = "red";
+					$scope.responsedisable = "";
 					console.log("CONNECTIVITY ERROR");
 			});
 		};
@@ -157,6 +188,9 @@ app.controller('loginController', function($scope, $http, Session, $location) {
 		
 	
 	});
+
+
+
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
@@ -241,8 +275,14 @@ app.controller('testController', function($scope) {
 	
 });
 
-app.controller('testController2', function($scope) {
+app.controller('testController2', function($scope, Session) {
 	
+	$scope.email = Session.email;
+	console.log("eamilasd "+Session.email);
 	$scope.test = 'hello world';
 	
 });
+
+
+
+

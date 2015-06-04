@@ -24,6 +24,9 @@
 	</style>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script> 
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.tpl.min.js"></script>
   	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>
@@ -34,6 +37,7 @@
     <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 	<script src="js/sessionsService.js"></script>
 	<script src="js/angular-recaptcha.min.js"></script>
+	<script src="js/ng-flow-standalone.js"></script>
 	<script src="js/app.js"></script>
     
 
@@ -47,7 +51,7 @@
   <body ng-app="Arcfolio" class="mainbody">
   
   <navbar></navbar>
-   
+  
     
 				<div ng-view></div>
             
