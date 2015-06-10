@@ -1,24 +1,25 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'mgcrea.ngStrap', 'flow']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'ngSanitize', 'flow']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dinamically.//*/
 app.config(function($routeProvider, $locationProvider, flowFactoryProvider) 
 {
 	
+	
 	console.log("router working...");
     $locationProvider.html5Mode(true);
   	$routeProvider
 	.when('/arcfolio/index.php', 
 	{
-	   	templateUrl: 'html_plugins/default.html',
+	   	templateUrl: 'html_plugins/design1.html',
 	   	controller: 'testController'
 	})
 	
 	
 	.when('/arcfolio/user', 
 		{
-		templateUrl: 'html_plugins/userInterface.html',
+		templateUrl: 'html_plugins/ui.html',
 		controller: 'testController2'
   	})
 	
@@ -87,18 +88,28 @@ app.directive('newsfeed', function()
 		  		restrict: 'E',
 		  		controller: ['$scope', function($scope)
 				{
-					  $scope.myInterval = 4000;
+					  $scope.myInterval = 7000;
 					  var slides = $scope.slides = [];
+					  var count = Math.floor((Math.random()*6)+1);
 					  
 					  $scope.addSlide = function() {
+						  count += 1;
+						  if (count > 7) { count = 1;}
 						var newWidth = 600 + slides.length + 1;
 						slides.push({
-						  image: 'http://placekitten.com/' + newWidth + '/300',
-						  text: ['Serious Design work needed.','Angular functionality works tho.','so now its just kittens.','Even though Im a dog person.'][slides.length % 4] + ' ' +
-							['', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
+						  image: 'http://thestarkmarket.com/arcfolio/res/images/cover' + count + '.jpg',
+						  text: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
+						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
+						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
+						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
+						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
+						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
+						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
+						  ][slides.length % 7] + ' ' +
+							['HEADER #1','HEADER #2','HEADER #3','HEADER #4','HEADER #5','HEADER #6','HEADER #7'][slides.length % 7]
 						});
 					  };
-					  for (var i=0; i<4; i++) {
+					  for (var i=0; i<7; i++) {
 						$scope.addSlide();
 					  }
 				}],
@@ -108,7 +119,98 @@ app.directive('newsfeed', function()
 });
 
 
+app.directive('backImg', function(){
+    return function(scope, element, attrs){
+        var url = attrs.backImg;
+        element.css({
+            'background-image': 'url(' + url +')', 'background-repeat': 'no-repeat', 'background-size': 'cover', 'height': '400px', 'background-position': 'center center', 'margin-top':'5px', 'width': '100%'
+        });
+    };
+});
 
+
+app.controller('ModalDemoCtrl', function ($scope, $modal, $log) {
+
+  $scope.items = ['item1', 'item2', 'item3'];
+
+  $scope.animationsEnabled = true;
+
+  $scope.open = function (size) {
+
+    var modalInstance = $modal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $scope.toggleAnimation = function () {
+    $scope.animationsEnabled = !$scope.animationsEnabled;
+  };
+
+});
+app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log) {
+
+  $scope.items = ['item1', 'item2', 'item3'];
+
+  $scope.animationsEnabled = true;
+
+  $scope.open = function (size) {
+
+    var modalInstance = $modal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'myModalContenttwo.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  $scope.toggleAnimation = function () {
+    $scope.animationsEnabled = !$scope.animationsEnabled;
+  };
+
+});
+
+// Please note that $modalInstance represents a modal window (instance) dependency.
+// It is not the same as the $modal service used above.
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+});
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */

@@ -6,21 +6,33 @@
   
   
   <div style="height: 100%; width: 100%">
-    <carousel interval="myInterval" style="height:500px;">
+    <carousel interval="myInterval" style="height:auto;">
       <slide ng-repeat="slide in slides" active="slide.active">
-      	<div class="row">
-        	<div class="col-xs-12">
-            	<img class="thumbnail" ng-src="{{slide.image}}" style="margin-top:15px; width: 94%; margin-left:3%;">
-            </div>
+      
+        <div class="row" style=" background-color: #e7f1f3; position:absolute; top:0; width: 100%; z-index:1000; margin:0;">
+        	<h3 style="float: left; margin: 2px; font-size:30px; margin-left:15px;">TestSlide {{$index + 1}}</h3>
         </div>
       	<div class="row">
+        	<div class="col-xs-12">
+            	<div back-img="{{slide.image}}">
+                </div>
+                <div style="position:absolute; top: 35px; left:15px; padding:8px; margin:8px; background-color: rgba(0, 0, 0, 0.3); color:white; width: 40%; font-size:14px; font-weight:bold; text-align:left;"><p>{{slide.text}}</p></div>
+                
+            </div>
+        </div>
+        
+        <div style="height:30px; background-color:#e7f1f3; position:absolute; bottom:0; width: 100%; z-index:1000;"></div>
+      	<!--div class="row">
         	<div class="col-xs-1"></div>
             	<div class="col-xs-10" style="text-align:left">
                   <h4>Slide {{$index}}</h4>
                   <p>{{slide.text}} afsadsf ;lkfd ;ljaksd;asdf j;sadf; al jdf;klaj ds; lfja; flkjasd;l fkja;dlf jas;df jas;dlfjas;sdlfj as;fjsadfjkas;lkdfjsad;lfjasd;lfjasd;klfja ta;krjwe;lrjw;erjqw;erjqwe;</p>
             </div>
         	<div class="col-xs-1"></div>
-        </div>
+        </div-->
       </slide>
     </carousel>
   </div>
+  
+  
+  

@@ -39,10 +39,22 @@ height:100%; width:100%; background-color:white; opacity:0;
 }
 
 
+@font-face {
+    font-family:"Steelfishrg";
+    src: url("agencyr.eot") /* EOT file for IE */
+}
+@font-face {
+    font-family:"AgencyFBRegular";
+    src: url("agencyr.ttf") /* TTF file for CSS3 browsers */
+}
 
 
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 20px;
+    color: #1b2527;
+}
 
-
+p, .p { color: #87b9c3;}
 
 
 
@@ -64,6 +76,15 @@ height:100%; width:100%; background-color:white; opacity:0;
     background-image: none;
     background-repeat: none;
 	width:2%;
+	opacity:0;
+}
+.carousel-control.right:hover {
+    right: 0px;
+    left: auto;
+    background-image: none;
+    background-repeat: none;
+	width:2%;
+	opacity:0.3;
 }
 .carousel-control.left {
     right: auto;
@@ -71,14 +92,31 @@ height:100%; width:100%; background-color:white; opacity:0;
     background-image: none;
     background-repeat: none;
 	width: 2%;
+	opacity:0;
+}
+
+.carousel-control.left:hover {
+    right: auto;
+    left: 0;
+    background-image: none;
+    background-repeat: none;
+	width: 2%;
+	opacity:0.3;
+}
+
+.carousel-indicators
+{
+	bottom:5px;
 }
 
 .carousel-indicators li {
-	border: 1px solid rgba(101, 101, 101)
+	margin-left:20px;
+	margin-right:20px;
 }
 
 .carousel-indicators .active {
-	background-color: rgba(166,166,166,1.00);
+	margin-left:20px;
+	margin-right:20px;
 }
 
 .ui_icons
@@ -112,7 +150,7 @@ height:100%; width:100%; background-color:white; opacity:0;
 
 .mainbody
 {
-	background-color: #8B9AA4;
+	background-color: #1b2527;
 }
 .vertcent
 {
@@ -257,3 +295,10 @@ box-align:center;
     overflow: hidden;
     display: block;
 }
+
+.modal-lg
+{
+}
+
+body
+{ padding-top:none;}
