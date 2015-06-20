@@ -19,39 +19,22 @@
      * An angular service to wrap the reCaptcha API
      */
 	app.service('Tab', function($http){
-	
-	
-    this.toLog = function(data){
 		
-		var hold = "";
+	this.mytabs = '';
 		
-		 var config = {
-			params: {
-			  tabData : data
-			}
-		  };
-		  
-		  //loading animation goes here//
-		  
-		  $http.post("php_plugins/tabs.php", null, config)
-			.success(function (data, status, headers, config)
-			{
-			  //finish animation process here//
-			  hold = data;
-			  console.log('tabs working');
-			  console.log(data);
-			  
-			})
-			//there was an error sending the data to php.//
-			.error(function (data, status, headers, config)
-			{
-					console.log("CONNECTIVITY ERROR");
-			});
-			
-			this.mytabs = hold;
+	this.count = function(){this.tabsAval = 8 - this.mytabs.length; console.log("num of tabs " + this.tabsAval);};
+	
+	this.fillTabs = function(id)
+	{
+		var count = this.mytabs.length+1;
+		while(count < 9)
+		{
+			this.mytabs.push({'deleted' : 0, 'lastUpdated' : null, 'name' : 'tab #'+count , 'ownerId' : id, 'real': false, 'id': null });
+			count++;
 		};
-		///////////////////////////////////////////////////////////////////////////////////////////////////
-		
+		console.log(this.mytabs);
+	};
+	
 	
      
 });

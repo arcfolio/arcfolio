@@ -50,46 +50,12 @@ margin: 0px 25%;">8</p></div>
 				<div class="col-xs-10">
 					<div class="row">
 						<div class="col-xs-12"  style="padding: 0;">
-						<div ng-click="imgupload(1)" class="col-xs-6 col-md-3" style="padding: 0;">
+						<div ng-repeat="tab in $root.tabs" ng-click="imgupload($index)" class="col-xs-6 col-md-3" style="padding: 0;">
 							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">Header #1</h1>
+									<h1 class="ub-header-t-modal">{{tab.name}}</h1>
 							</div>
 						</div>
-						<div ng-click="imgupload(2)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h4 class="ub-header-t-modal">Header #2</h4>
-							</div>
-						</div>
-						<div ng-click="imgupload(3)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">Header #3</h1>
-							</div>
-						</div>
-						<div ng-click="imgupload(4)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">Header #4</h1>
-							</div>
-						</div>
-						<div  ng-click="imgupload(5)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">Header #1</h1>
-							</div>
-						</div>
-						<div ng-click="imgupload(6)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">Header #2</h1>
-							</div>
-						</div>
-						<div ng-click="imgupload(7)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">Header #3</h1>
-							</div>
-						</div>
-						<div ng-click="imgupload(8)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">Header #4</h1>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 				
@@ -149,11 +115,14 @@ font-weight: bold;">Portfolio Settings</h3></div>
 			<div class="row" style="padding-top:20px;">
 				<div ng-click="imgupload(1)" class="col-xs-1">
 				<p style="text-align:center; font-size: 15px; font-weight: bold; color:black; cursor: pointer;"><span style="top:2px;" class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</p></div>
-				<div class="col-xs-3"><p style="text-align:center; font-size: 15px; font-weight: bold;">Tab Name:</p></div>
+				<div class="col-xs-3"><p style="text-align:center; font-size: 15px; font-weight: bold;">Tab Name: </p></div>
 				<div class="col-xs-7">
 					<div class="row">
-						<input ng-model="tabname" ng-change="changetest(tabname)" ng-model-options="{debounce: 1000;}" type="text" class="textbar" style="border-top:none;" />
-					</div>
+						<input ng-model="$root.tabs[tabnum].name" ng-change="update($root.tabs[tabnum])" class="textbar ng-pristine ng-valid" style="border-top: medium none; width: 90%;" type="text">
+					
+						<img ng-show="loader" style="height: 17px; margin-bottom: 5px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="success" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708;"></span>
+						</div>
 				</div>
 				<div class="col-xs-1"></div>
 			</div>
@@ -267,54 +236,22 @@ font-weight: bold;">Portfolio Settings</h3></div>
 
 	
      <!----------------------------------------------------------------------------------------------------------------------------------------->
+    <div ng-controller="maintabs">
     <div class="visible-md-block visible-lg-block">
     <div class="row">
     	<div class="col-xs-12"  style="padding: 0;">
             	<div style="height:100%; width: 100%; background-image:url(res/images/userimages/m2.jpg); background-repeat: no-repeat;
 	    background-size: cover;
 		 background-position: center center; position:absolute; min-height:800px;"></div>
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
+            
+            <div ng-repeat="tab in $root.tabs.slice(0,4)" class="col-xs-6 col-md-3" style="padding: 0;">
                 <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-t">Header #1</h1>
+                        <h1 class="ub-header-t">{{tab.name}}</h1>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
+            <div ng-repeat="tab in $root.tabs.slice(4,8)" class="col-xs-6 col-md-3" style="padding: 0;">
                 <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-t">Header #2</h1>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
-                <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-t">Header #3</h1>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
-                <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-t">Header #4</h1>
-                </div>
-            </div>
-        </div>
-      </div>
-	<div class="row">
-    	<div class="col-xs-12"  style="padding: 0;">
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
-                <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-b">Header #5</h1>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
-                <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-b">Header #6</h1>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
-                <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-b">Header #7</h1>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3" style="padding: 0;">
-                <div id="testdiv" class="user-block">
-                        <h1 class="ub-header-b">Header #8</h1>
+                        <h1 class="ub-header-b">{{tab.name}}</h1>
                 </div>
             </div>
         </div>
@@ -330,55 +267,15 @@ font-weight: bold;">Portfolio Settings</h3></div>
 		 background-position: center center; position:absolute; min-height:800px;"></div>
          
             <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #1</h1>
+                <div ng-repeat="tab in $root.tabs" id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
+                        <h1 class="ub-header">{{tab.name}}</h1>
                 </div>
             </div>
             
-            <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #2</h1>
-                </div>
-            </div>
-            
-            <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #3</h1>
-                </div>
-            </div>
-            
-            <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #4</h1>
-                </div>
-            </div>
-            
-            <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #5</h1>
-                </div>
-            </div>
-            
-            <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #6</h1>
-                </div>
-            </div>
-            
-            <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #7</h1>
-                </div>
-            </div>
-            
-            <div class="col-xs-12" style="padding: 0;">
-                <div id="testdiv" class="user-block-sm" style="display:flex; align-items:center;">
-                        <h1 class="ub-header">Header #8</h1>
-                </div>
-            </div>
             
             
         </div>
+      </div>
       </div>
       </div>
       <!----------------------------------------------------------------------------------------------------------------------------------------->

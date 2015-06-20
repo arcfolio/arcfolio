@@ -28,7 +28,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script> 
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.11/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-animate.min.js"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.3.15/angular-sanitize.min.js" data-semver="1.3.15"></script>\
    
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>

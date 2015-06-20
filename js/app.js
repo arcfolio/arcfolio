@@ -1,5 +1,5 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'ngSanitize', 'flow', 'arcfolioFilters']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'ngSanitize', 'ngAnimate', 'flow', 'arcfolioFilters']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dynamically.//*/
@@ -223,21 +223,53 @@ app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log) {
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $timeout) {
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $timeout, Tab, $http) {
 
+	
 $scope.imguploader = false;
+$scope.loader = false;
+$scope.success= false;
 
 	var inputChangedPromise;
-$scope.changetest = function(tn){
+$scope.update = function(data){
     if(inputChangedPromise){
         $timeout.cancel(inputChangedPromise);
     }
-    inputChangedPromise = $timeout(function(){ console.log("fire function"); console.log(tn); },1000);
+    inputChangedPromise = $timeout(function()
+	{
+		
+		 var config = {
+			params: {
+			  tabData : data
+			}
+		  };
+		  
+		  $scope.loader = true;
+		$http.post("php_plugins/updatetab.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	console.log(data);
+				$scope.loader = false;
+				$scope.success = true;
+				var out = $timeout(function(){$scope.success=false;}, 1500);
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					console.log("CONNECTIVITY ERROR");
+					$scope.loader = false;
+			})
+			.then(function(){});
+	
+	},1000);
 }
 	
 	$scope.imgupload = function(tab){
 		
 			$scope.tabnum = tab;
+			
 			if($scope.imguploader == false)
 			{
 			$scope.imguploader = true;
@@ -263,10 +295,42 @@ $scope.changetest = function(tn){
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('loginController', function($scope, $http, Session, Tab, $location) {
+app.controller('loginController', function($rootScope, $scope, $http, Session, Tab, $location) {
 		
 		$scope.loginInfo = null;
 		$scope.response = "";
+		
+		$scope.getTabs = function(data){
+		
+		 var config = {
+			params: {
+			  tabData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/tabs.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	Tab.mytabs = data;
+				console.log("tab data " + data);
+				if(Tab.mytabs == "")
+				{
+					console.log("tabs are null");
+					Tab.mytabs = [ {'deleted' : 0, 'lastUpdated' : null, 'name' : 'tab #1' , 'ownerId' : Session.id, 'real': false, 'id': null } ];
+				}
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			.then(function(){ Tab.count(); Tab.fillTabs(Session.id); $rootScope.tabs = Tab.mytabs; });
+			
+		};
 		
 		$scope.login = function (data) 
 		{
@@ -307,7 +371,7 @@ app.controller('loginController', function($scope, $http, Session, Tab, $locatio
 				  	console.log("SUCESSFUL SESSION CREATION");
 					
 			  		Session.login(data);
-					Tab.toLog(Session.id);
+					
 					
 					console.log(Session.isLoggedIn());
 					console.log(Session.id);
@@ -335,7 +399,10 @@ app.controller('loginController', function($scope, $http, Session, Tab, $locatio
 					$scope.responsecolor = "red";
 					$scope.responsedisable = "";
 					console.log("CONNECTIVITY ERROR");
-			});
+			})
+			.then(function(){
+					$scope.getTabs(Session.id);
+					});
 		};
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -428,13 +495,19 @@ app.controller('testController', function($scope) {
 	
 });
 
-app.controller('testController2', function($scope, Session) {
+app.controller('testController2', function($scope, Session, Tab) {
 	
 	$scope.email = Session.email;
 	console.log("eamilasd "+Session.email);
 	$scope.test = 'hello world';
 	
+	
+	
 });
+
+app.controller('maintabs', function($scope, Session, Tab) {
+	
+	});
 
 
 

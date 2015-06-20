@@ -8,5 +8,6 @@
 <file name="antiMalwareParser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130769184915864334" remote="130769364600000000" Dst="2" />
 <file name="bcrypt.php" server="ftp.thestarkmarket.com/arcfolio/" local="130762550633404763" remote="130762739400000000" Dst="2" />
 <file name="loginUser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130792467455220371" remote="130792647000000000" Dst="2" />
-<file name="grabTabs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130792839532218796" remote="130793019000000000" Dst="2" />
+<file name="grabTabs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130792912100099594" remote="130793091600000000" Dst="2" />
+<file name="updateTabs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130793016346106184" remote="130793196000000000" Dst="2" />
 </dwsync>

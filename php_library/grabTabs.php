@@ -20,7 +20,8 @@ class grabTabs
 		if($sqlnum > 0)
 		{
 			// create session //
-				$row = mysql_fetch_assoc($sql);
+				while($data = mysql_fetch_assoc($sql))
+				{ $row[] = $data; }
 
 					//serialize to json object.
 					$this->strings = json_encode($row);
@@ -29,7 +30,7 @@ class grabTabs
 		}
 		else
 		{
-			$this->strings = "no data found2";
+			$this->strings = NULL;
 		}
 			
 	}
