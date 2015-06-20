@@ -4,7 +4,9 @@
 <div class="visible-xs-block visible-sm-block" style="margin-top:4px;"></div>
 
 <div class="container">
-	<div class="row" style="margin-bottom:10px;">
+
+        <div ng-controller="loginController">
+	<div class="row">
     	<div class="col-xs-6 col-md-3" style="padding: 0;">
         <a href="index.php">
         	<div id="testdiv" class="default-block" style="display:flex; align-items:center;">
@@ -15,24 +17,39 @@
     	<div class="col-xs-6 col-md-3" style="padding: 0;">
         	<div class="default-block"><h3 style="padding:2px; padding-left: 3px; margin:0;">Visual<br>Student<br>Portfolios</h3></div>
         </div>
-    	<div class="col-xs-6 col-md-3" style="padding: 0;">
-        	<div class="default-block">
-                <div style="text-align: left; text-indent: 9px;">
-                      <label for="loginEmail" style="text-align: left;font-size: 24px;top: 11px;position: absolute;"><a href="user" style="text-decoration:none;">Email:</a></label>
-                      <input ng-model="user.email" id="loginEmail" class="form-control form-box" style="position: absolute;bottom: 11px;margin-left: 2%;width: 93%;" placeholder="Email Address" required="" autofocus type="text">
+            <div class="col-xs-5 col-md-3" style="padding: 0;">
+                <div class="default-block">
+                    <div style="text-align: left; text-indent: 9px;">
+                          <label for="loginEmail" style="text-align: left;font-size: 24px;top: 11px;position: absolute;">Email:</label>
+                          <input ng-model="loginInfo.email" id="loginEmail" class="form-control form-box" style="position: absolute;bottom: 11px;margin-left: 2%;width: 93%;" placeholder="Email Address" required="" autofocus type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-5 col-md-2" style="padding: 0;">
+                <div class="default-block">
+                    <div style="text-align: left; text-indent: 9px;">
+                          <label for="loginPassword" style="text-align: left;font-size: 24px;top: 11px;position: absolute;">Password:</label>
+                          <input ng-model="loginInfo.password" id="loginPassword" class="form-control form-box" style="position: absolute;bottom: 11px;margin-left: 2%;width: 93%;" placeholder="Password" required="" autofocus type="password">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 col-md-1" style="padding: 0;">
+                <div ng-click="login(loginInfo)" id="testdiv" class="default-block" style="display:flex; align-items:center; background-color: rgb(135, 185, 195);color: rgb(27, 37, 39);">
+                        <h4 style=" width: 100%; text-align:center; margin:0;">Log in</h4>
                 </div>
             </div>
         </div>
-    	<div class="col-xs-6 col-md-3" style="padding: 0;">
-        	<div class="default-block">
-                <div style="text-align: left; text-indent: 9px;">
-                      <label for="loginPassword" style="text-align: left;font-size: 24px;top: 11px;position: absolute;">Password:</label>
-                      <input ng-model="user.password" id="loginPassword" class="form-control form-box" style="position: absolute;bottom: 11px;margin-left: 2%;width: 93%;" placeholder="Password" required="" autofocus type="password">
-                </div>
+    
+	<div ng-show="response" class="row" style="margin-bottom:10px;">
+    	<div class="col-xs-12" style="padding: 0;">
+        	<div id="testdiv" class="default-block" style="display:flex; align-items:center; min-height:0; padding:5px; text-align:center;">
+            	<p style="font-weight: bold; margin:0; width: 100%; color: {{responsecolor}};">{{ response }}</p>
             </div>
         </div>
     </div>
-	<div class="row">
+    </div>
+    
+	<div class="row" style="margin-bottom:10px;">
     	<div class="col-xs-12"  style="padding: 0;">
         	<div class="default-block" style="height:auto;"><newsfeed></newsfeed></div>
         </div>
@@ -41,10 +58,10 @@
     	<div class="col-xs-12 col-sm-6" style="padding: 0;">
         	<div class="default-block">
             	<h1 style="margin:0; margin-left:10px; padding:0;">Create a Portfolio.</h1>
-                <form action="user" ng-controller="registerController" class="form-signin">               
+                <form ng-controller="registerController" class="form-signin">               
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <label style="text-align: left;" for="inputEmail">Email</label>
-                  <input ng-model="user.emailSignup" id="inputEmail" class="form-control form-box" placeholder="Email Address" required="" autofocus type="text">
+                  <input ng-model="user.email" id="inputEmail" class="form-control form-box" placeholder="Email Address" required="" autofocus type="text">
                 </div>
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
                   <label for="inputPassword">Password</label>
@@ -59,9 +76,9 @@
                   <div vc-recaptcha on-success="setResponse(response)" key="'6LcFmQYTAAAAAAVYY5zIgDjIJuWxCgkWsMdoCNSx'"></div>
                   </div>
                 <div style="margin: 10px 0px; text-align: left; text-indent: 9px;">
-                  <p ng-show="response" style="font-weight: bold; color: {{responsecolor}};">{{ response }}</p>
+                  <p ng-show="response" style="font-weight: bold; text-align:center; color: {{responsecolor}};">{{ response }}</p>
                   </div>
-                <button class="btn btn-lg btn-primary btn-block custom-btn" type="submit">Create An Account.</button>
+                <button  ng-click="createAccount(user)" class="btn btn-lg btn-primary btn-block custom-btn" type="button">Create An Account.</button>
               </form>
             </div>
         </div>

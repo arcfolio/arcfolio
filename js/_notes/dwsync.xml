@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="app.js" server="ftp.thestarkmarket.com/arcfolio/" local="130782809400000000" remote="130782809400000000" Dst="2" />
+<file name="app.js" server="ftp.thestarkmarket.com/arcfolio/" local="130792485700188832" remote="130792665600000000" Dst="2" />
 <file name="angular-recaptcha.min.js" server="ftp.thestarkmarket.com/arcfolio/" local="130758663218669082" remote="130769120400000000" Dst="2" />
 <file name="angular-recaptcha.js" server="ftp.thestarkmarket.com/arcfolio/" local="130760148293551588" remote="130761502800000000" Dst="2" />
 <file name="sessionsService.js" server="ftp.thestarkmarket.com/arcfolio/" local="130769207877564989" remote="130769387400000000" Dst="2" />
 <file name="myPopoverTemplate.html" server="ftp.thestarkmarket.com/arcfolio/" local="130772457830190354" remote="130772637600000000" Dst="2" />
 <file name="ng-flow-standalone.js" server="ftp.thestarkmarket.com/arcfolio/" local="130778539030440199" remote="130778733600000000" Dst="2" />
+<file name="customFilters.js" server="ftp.thestarkmarket.com/arcfolio/" local="130791985611663280" remote="130792165200000000" Dst="2" />
+<file name="tabsService.js" server="ftp.thestarkmarket.com/arcfolio/" local="130792840812629168" remote="130793020800000000" Dst="2" />
 </dwsync>

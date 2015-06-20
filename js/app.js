@@ -1,8 +1,8 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'ngSanitize', 'flow']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'ngSanitize', 'flow', 'arcfolioFilters']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//configure router - used for sending user to different pages dinamically.//*/
+//configure router - used for sending user to different pages dynamically.//*/
 app.config(function($routeProvider, $locationProvider, flowFactoryProvider) 
 {
 	
@@ -20,6 +20,12 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
 	.when('/arcfolio/user', 
 		{
 		templateUrl: 'html_plugins/ui.html',
+		controller: 'testController2'
+  	})
+	
+	.when('/arcfolio/tempIntern', 
+		{
+		templateUrl: 'html_plugins/tempHolder.html',
 		controller: 'testController2'
   	})
 	
@@ -67,6 +73,18 @@ app.run(function($rootScope) {
 
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+** footer ** */
+
+app.directive('footer', function()
+{
+	return	{
+			  restrict: 'E',
+			  templateUrl: 'html_plugins/footer.html'
+			};
+});
+
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** navbar ** */
 
 app.directive('navbar', function()
@@ -88,16 +106,16 @@ app.directive('newsfeed', function()
 		  		restrict: 'E',
 		  		controller: ['$scope', function($scope)
 				{
-					  $scope.myInterval = 7000;
+					  $scope.myInterval = 4000;
 					  var slides = $scope.slides = [];
 					  var count = Math.floor((Math.random()*6)+1);
 					  
 					  $scope.addSlide = function() {
 						  count += 1;
-						  if (count > 7) { count = 1;}
+						  if (count > 4) { count = 1;}
 						var newWidth = 600 + slides.length + 1;
 						slides.push({
-						  image: 'http://thestarkmarket.com/arcfolio/res/images/cover' + count + '.jpg',
+						  image: 'http://thestarkmarket.com/arcfolio/res/images/TestBanner' + count + '.jpg',
 						  text: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
 						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
 						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
@@ -130,7 +148,7 @@ app.directive('backImg', function(){
 
 
 app.controller('ModalDemoCtrl', function ($scope, $modal, $log) {
-
+	
   $scope.items = ['item1', 'item2', 'item3'];
 
   $scope.animationsEnabled = true;
@@ -162,6 +180,15 @@ app.controller('ModalDemoCtrl', function ($scope, $modal, $log) {
 
 });
 app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log) {
+	
+	$scope.imguploader = false;
+	
+	$scope.imgupload = function(tab){
+		
+			$scope.tabnum = tab;
+			$scope.imguploader = true;
+			console.log("image upload");
+		};
 
   $scope.items = ['item1', 'item2', 'item3'];
 
@@ -196,8 +223,30 @@ app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log) {
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $timeout) {
 
+$scope.imguploader = false;
+
+	var inputChangedPromise;
+$scope.changetest = function(tn){
+    if(inputChangedPromise){
+        $timeout.cancel(inputChangedPromise);
+    }
+    inputChangedPromise = $timeout(function(){ console.log("fire function"); console.log(tn); },1000);
+}
+	
+	$scope.imgupload = function(tab){
+		
+			$scope.tabnum = tab;
+			if($scope.imguploader == false)
+			{
+			$scope.imguploader = true;
+			}else{
+			$scope.imguploader = false;
+			}
+			console.log("image upload");
+		};
+		
   $scope.items = items;
   $scope.selected = {
     item: $scope.items[0]
@@ -214,9 +263,10 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('loginController', function($scope, $http, Session, $location) {
+app.controller('loginController', function($scope, $http, Session, Tab, $location) {
 		
 		$scope.loginInfo = null;
+		$scope.response = "";
 		
 		$scope.login = function (data) 
 		{
@@ -257,6 +307,7 @@ app.controller('loginController', function($scope, $http, Session, $location) {
 				  	console.log("SUCESSFUL SESSION CREATION");
 					
 			  		Session.login(data);
+					Tab.toLog(Session.id);
 					
 					console.log(Session.isLoggedIn());
 					console.log(Session.id);

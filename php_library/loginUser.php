@@ -36,6 +36,7 @@ class loginUser
 					//create dat session//
 					$_SESSION['id'] 			= $row['id'];
 					$id							= $row['id'];
+					$this->id					= $id;
 					//$_SESSION['username'] 		= $row['username'];
 					$_SESSION['password'] 		= $row['password'];
 					//$_SESSION['pic_ext'] 		= $row['pic_ext'];

@@ -36,8 +36,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular-cookies.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 	<script src="js/sessionsService.js"></script>
+	<script src="js/tabsService.js"></script>
 	<script src="js/angular-recaptcha.min.js"></script>
 	<script src="js/ng-flow-standalone.js"></script>
+	<script src="js/customFilters.js"></script>
 	<script src="js/app.js"></script>
   	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     
@@ -67,7 +69,11 @@
       		</div>
     <!--/.container-->
 
-
+	
+    <div class="container">
+    	<footer></footer>
+    </div>
+    
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

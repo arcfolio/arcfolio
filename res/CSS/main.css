@@ -9,6 +9,30 @@ height:100%; width:100%; background-color:white; opacity:0;
             animation: fadein 3s;
 }
 
+.modal-lg
+{
+	width: 90%;
+}
+
+.removal
+{
+	position: absolute;
+right: 0;
+padding:10px;
+opacity:0;
+cursor:pointer;
+}
+
+.removal:hover
+{
+	position: absolute;
+right: 0;
+padding:10px;
+color: rgb(119, 0, 0);
+cursor:pointer;
+opacity:1;
+}
+
 @keyframes fadein {
     from { opacity: 1; }
     to   { opacity: 0; }
