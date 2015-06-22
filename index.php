@@ -37,8 +37,10 @@
     <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 	<script src="js/sessionsService.js"></script>
 	<script src="js/tabsService.js"></script>
+	<script src="js/imgService.js"></script>
 	<script src="js/angular-recaptcha.min.js"></script>
 	<script src="js/ng-flow-standalone.js"></script>
+	<script src="js/ngProgress.js"></script>
 	<script src="js/customFilters.js"></script>
 	<script src="js/app.js"></script>
   	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>

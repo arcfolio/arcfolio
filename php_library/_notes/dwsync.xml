@@ -10,4 +10,7 @@
 <file name="loginUser.php" server="ftp.thestarkmarket.com/arcfolio/" local="130792467455220371" remote="130792647000000000" Dst="2" />
 <file name="grabTabs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130792912100099594" remote="130793091600000000" Dst="2" />
 <file name="updateTabs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130793016346106184" remote="130793196000000000" Dst="2" />
+<file name="grabImgs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130793343173834140" remote="130793523000000000" Dst="2" />
+<file name="uploader.php" server="ftp.thestarkmarket.com/arcfolio/" local="130794144174517289" remote="130794324000000000" Dst="2" />
+<file name="IAL.php" server="ftp.thestarkmarket.com/arcfolio/" local="130793989119539380" remote="130762739400000000" Dst="2" />
 </dwsync>

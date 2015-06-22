@@ -1,5 +1,5 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'ngSanitize', 'ngAnimate', 'flow', 'arcfolioFilters']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ngProgress', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'imgService', 'ngSanitize', 'ngAnimate', 'flow', 'arcfolioFilters']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dynamically.//*/
@@ -40,12 +40,12 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
 		redirectTo: '/arcfolio/index.php'
 	});
 	
-	flowFactoryProvider.defaults = {
-    target: 'upload.php',
+  flowFactoryProvider.defaults = {
+    target: 'php_library/uploader.php',
     permanentErrors: [404, 500, 501],
     maxChunkRetries: 1,
     chunkRetryInterval: 5000,
-    simultaneousUploads: 4
+    simultaneousUploads: 8
   };
   flowFactoryProvider.on('catchAll', function (event) {
     console.log('catchAll', arguments);
@@ -55,6 +55,8 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
 	
 
 app.run(function($rootScope) {
+	
+	
 	//this hides the re-enter password input in default.html//
 	$rootScope.registerBool = false;
 	$rootScope.response = null;
@@ -223,12 +225,15 @@ app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log) {
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $timeout, Tab, $http) {
-
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $timeout, Tab, $http, $rootScope) {
+	
+	
 	
 $scope.imguploader = false;
 $scope.loader = false;
 $scope.success= false;
+
+
 
 	var inputChangedPromise;
 $scope.update = function(data){
@@ -266,9 +271,12 @@ $scope.update = function(data){
 	},1000);
 }
 	
-	$scope.imgupload = function(tab){
+	$scope.imgupload = function(tab, id){
 		
 			$scope.tabnum = tab;
+			$scope.tabid = id;
+			console.log($scope.tabnum);
+			console.log($scope.tabid);
 			
 			if($scope.imguploader == false)
 			{
@@ -295,7 +303,7 @@ $scope.update = function(data){
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('loginController', function($rootScope, $scope, $http, Session, Tab, $location) {
+app.controller('loginController', function($rootScope, $scope, $http, Session, Img, Tab, $location) {
 		
 		$scope.loginInfo = null;
 		$scope.response = "";
@@ -329,6 +337,34 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, T
 					return console.log("CONNECTIVITY ERROR");
 			})
 			.then(function(){ Tab.count(); Tab.fillTabs(Session.id); $rootScope.tabs = Tab.mytabs; });
+			
+		};
+		
+		$scope.getImgs = function(data){
+		
+		 var config = {
+			params: {
+			  imgData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/imgs.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	Img.myimgs = data;
+				console.log("img data ");
+				console.log( data);
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			.then(function(){ Img.count(); $rootScope.imgs = Img.myimgs; });
 			
 		};
 		
@@ -402,6 +438,7 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, T
 			})
 			.then(function(){
 					$scope.getTabs(Session.id);
+					$scope.getImgs(Session.id);
 					});
 		};
 		///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -409,8 +446,16 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, T
 	
 	});
 
-
-
+/*
+app.controller('loaderController', function($scope, $timeout, ngProgress){
+	
+	ngProgress.color('#87B9C3');
+	ngProgress.height('3px');
+	ngProgress.start();
+	//$timeout(ngProgress.complete(), 5000);
+	
+	});
+*/
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
@@ -495,7 +540,22 @@ app.controller('testController', function($scope) {
 	
 });
 
-app.controller('testController2', function($scope, Session, Tab) {
+app.controller('testcontrollerm', function($scope, flowFactory) {
+	
+$scope.uploadImages = function(){
+				
+				console.log("images fired");
+				
+			$scope.$flow.opts.target = 'php_library/uploader.php';
+			$scope.$flow.upload();
+			$scope.$on('flow::complete', function () {
+				console.log("file is uploaded");
+				})
+			};
+	
+});
+
+app.controller('testController2', function($scope, Session, Img, Tab) {
 	
 	$scope.email = Session.email;
 	console.log("eamilasd "+Session.email);
@@ -505,7 +565,7 @@ app.controller('testController2', function($scope, Session, Tab) {
 	
 });
 
-app.controller('maintabs', function($scope, Session, Tab) {
+app.controller('maintabs', function($scope, Session, Img, Tab) {
 	
 	});
 
