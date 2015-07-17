@@ -6,4 +6,7 @@
 <file name="tabs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130792489416448884" remote="130792669200000000" Dst="2" />
 <file name="updatetab.php" server="ftp.thestarkmarket.com/arcfolio/" local="130792958425980601" remote="130793138400000000" Dst="2" />
 <file name="imgs.php" server="ftp.thestarkmarket.com/arcfolio/" local="130793347132660124" remote="130793526600000000" Dst="2" />
+<file name="updateimg.php" server="ftp.thestarkmarket.com/arcfolio/" local="130799342685802797" remote="130799522400000000" Dst="2" />
+<file name="settings.php" server="ftp.thestarkmarket.com/arcfolio/" local="130804110132018495" remote="130804290000000000" Dst="2" />
+<file name="updatesetting.php" server="ftp.thestarkmarket.com/arcfolio/" local="130804135370380006" remote="130804315200000000" Dst="2" />
 </dwsync>

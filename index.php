@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
     <link rel="stylesheet" type="text/css" href="//thestarkmarket.com/arcfolio/res/CSS/main.css">
+    <link rel="stylesheet" type="text/css" href="//thestarkmarket.com/arcfolio/res/CSS/design1.css">
     <style>
 		 @media (min-width: @screen-md-min) { .padder: {margin-left:10px;} }
 	</style>
@@ -34,10 +35,12 @@
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular-cookies.js"></script>
+       <script src="http://code.angularjs.org/1.2.0rc1/angular-touch.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 	<script src="js/sessionsService.js"></script>
 	<script src="js/tabsService.js"></script>
 	<script src="js/imgService.js"></script>
+	<script src="js/settingsService.js"></script>
 	<script src="js/angular-recaptcha.min.js"></script>
 	<script src="js/ng-flow-standalone.js"></script>
 	<script src="js/ngProgress.js"></script>
@@ -75,6 +78,7 @@
     <div class="container">
     	<footer></footer>
     </div>
+
     
     <!-- Bootstrap core JavaScript
     ================================================== -->

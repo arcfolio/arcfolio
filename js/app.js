@@ -1,5 +1,5 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ngProgress', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'imgService', 'ngSanitize', 'ngAnimate', 'flow', 'arcfolioFilters']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ngTouch', 'ngProgress', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'imgService', 'settingsService', 'ngSanitize', 'ngAnimate', 'flow', 'arcfolioFilters']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dynamically.//*/
@@ -20,6 +20,12 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
 	.when('/arcfolio/user', 
 		{
 		templateUrl: 'html_plugins/ui.html',
+		controller: 'testController2'
+  	})
+	
+	.when('/arcfolio/company', 
+		{
+		templateUrl: 'html_plugins/company.html',
 		controller: 'testController2'
   	})
 	
@@ -45,7 +51,8 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
     permanentErrors: [404, 500, 501],
     maxChunkRetries: 1,
     chunkRetryInterval: 5000,
-    simultaneousUploads: 8
+    simultaneousUploads: 8,
+	testChunks: false
   };
   flowFactoryProvider.on('catchAll', function (event) {
     console.log('catchAll', arguments);
@@ -139,6 +146,19 @@ app.directive('newsfeed', function()
 });
 
 
+app.directive('mainImg', function($rootScope){
+    return function(scope, element, attrs){
+       // var url = attrs.mainImg;
+        element.css({ 'background-image': 'url(' + $rootScope.mainimg +')', 'position':'absolute', 'height':'100%', 'width':' 100%', 'background-repeat':' no-repeat', 'background-size':' cover', 'background-position':' center center', ' position':'absolute', ' min-height':'800px' });
+    	scope.$watch(function() {
+			  return $rootScope.mainimg;
+			}, function() {
+				element.css({ 'background-image': 'url(' + $rootScope.mainimg +')', 'position':'absolute', 'height':'100%', 'width':' 100%', 'background-repeat':' no-repeat', 'background-size':' cover', 'background-position':' center center', ' position':'absolute', ' min-height':'800px' });
+    			console.log("runs on change");
+			}, true);
+	};
+});
+
 app.directive('backImg', function(){
     return function(scope, element, attrs){
         var url = attrs.backImg;
@@ -148,6 +168,41 @@ app.directive('backImg', function(){
     };
 });
 
+app.controller('imageviewer', function ($scope) {
+
+    // Set of Photos
+    $scope.photos = [
+        {src: 'http://farm9.staticflickr.com/8042/7918423710_e6dd168d7c_b.jpg', desc: 'Image 01'},
+        {src: 'http://farm9.staticflickr.com/8449/7918424278_4835c85e7a_b.jpg', desc: 'Image 02'},
+        {src: 'http://farm9.staticflickr.com/8457/7918424412_bb641455c7_b.jpg', desc: 'Image 03'},
+        {src: 'http://farm9.staticflickr.com/8179/7918424842_c79f7e345c_b.jpg', desc: 'Image 04'},
+        {src: 'http://farm9.staticflickr.com/8315/7918425138_b739f0df53_b.jpg', desc: 'Image 05'},
+        {src: 'http://farm9.staticflickr.com/8461/7918425364_fe6753aa75_b.jpg', desc: 'Image 06'}
+    ];
+
+    // initial image index
+    $scope._Index = 0;
+
+    // if a current image is the same as requested image
+    $scope.isActive = function (index) {
+        return $scope._Index === index;
+    };
+
+    // show prev image
+    $scope.showPrev = function () {
+        $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.photos.length - 1;
+    };
+
+    // show next image
+    $scope.showNext = function () {
+        $scope._Index = ($scope._Index < $scope.photos.length - 1) ? ++$scope._Index : 0;
+    };
+
+    // show a certain image
+    $scope.showPhoto = function (index) {
+        $scope._Index = index;
+    };
+});
 
 app.controller('ModalDemoCtrl', function ($scope, $modal, $log) {
 	
@@ -181,13 +236,14 @@ app.controller('ModalDemoCtrl', function ($scope, $modal, $log) {
   };
 
 });
-app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log) {
+app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log, $rootScope) {
 	
 	$scope.imguploader = false;
 	
 	$scope.imgupload = function(tab){
 		
 			$scope.tabnum = tab;
+			$rootScope.tabnum = tab;
 			$scope.imguploader = true;
 			console.log("image upload");
 		};
@@ -225,17 +281,141 @@ app.controller('ModalDemoCtrltwo', function ($scope, $modal, $log) {
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $timeout, Tab, $http, $rootScope) {
+
+app.controller('flowuploader', function ($scope,flowFactory, Session, Img, Settings, $http, $rootScope, $q) {
+	
+	$scope.testupload = 
+	function()
+	{
+		$scope.$flow.upload();
+		$scope.$on('flow::complete', function () { 
+			console.log("works on completion");
+		 	$scope.getImgs(Session.id);
+			$scope.$apply(
+				function(){		$scope.$flow.cancel();	$rootScope.imgs = Img.myimgs;	}
+			);
+		 
+		 });
+	};
+	$scope.testupload2 = 
+	function()
+	{
+		$scope.$flow.upload();
+		$scope.$on('flow::complete', function () { 
+			console.log("works on completion");
+			var thelink = "http://www.thestarkmarket.com/arcfolio/users/" + Session.id + "/main.jpg";
+			console.log(thelink);
+			$scope.getMain(thelink).then(function() {
+															console.log("asdasdfaf");
+															var time = new Date().getTime() / 1000;
+															Session.mainimg = thelink + "?" + time;
+															$rootScope.mainimg = Session.mainimg;
+															$scope.$flow.cancel();
+															console.log($rootScope.mainimg);
+															//$scope.$apply(
+															//			function(){	$scope.$flow.cancel(); $rootScope.mainimg = Session.mainimg; console.log(Session.mainimg);}
+															//);
+														});
+			
+		 
+		 });
+	};
+	
+	$scope.getMain = function(src) {
+     var deferred = $q.defer();
+     var image = new Image();
+    image.onerror = function() {
+        deferred.resolve(false);
+    };
+    image.onload = function() {
+        deferred.resolve(true);
+    };
+    image.src = src;
+     return deferred.promise;
+};
+		  
+		  //loading animation goes here//
+		  
+		$scope.getImgs = function(data){
+		
+		 var config = {
+			params: {
+			  imgData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/imgs.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	Img.myimgs = data;
+				console.log("img data ");
+				console.log( data);
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			.then(function(){ Img.count(); $rootScope.imgs = Img.myimgs; });
+			
+		};
+	
+});
+
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $timeout, Tab, $http, $rootScope, Session, flowFactory) {
+	
+	$scope.portfolio = true;
+	
+	$scope.onPortfolio = function()
+	{
+		if($scope.portfolio == false){ $scope.portfolio = true; }else{$scope.portfolio = false;}
+	};
 	
 	
+	$rootScope.userId = Session.id;
+	
+	 $scope.config = {
+		 testChunks: false,
+    query: function (flowFile, flowChunk) {
+      // function will be called for every request
+      return {
+        tabId: $rootScope.tabId, userId: $rootScope.userId
+      };
+    }
+  };
+	
+	 $scope.config2 = {
+		 testChunks: false,
+    query: function (flowFile, flowChunk) {
+      // function will be called for every request
+      return {
+        mainImg: true, userId: $rootScope.userId
+      };
+    }
+  };
+  
+	 $scope.config3 = {
+		 testChunks: false,
+    query: function (flowFile, flowChunk) {
+      // function will be called for every request
+      return {
+        pdf: true, userId: $rootScope.userId
+      };
+    }
+  };
 	
 $scope.imguploader = false;
 $scope.loader = false;
 $scope.success= false;
 
-
+////////////////////////////////
 
 	var inputChangedPromise;
+	
 $scope.update = function(data){
     if(inputChangedPromise){
         $timeout.cancel(inputChangedPromise);
@@ -270,11 +450,110 @@ $scope.update = function(data){
 	
 	},1000);
 }
+
+////////////////////////////////
+
+	var inputChangedPromise;
+	
+$scope.updateimg = function(data, type){
+	if(type == 'name'){data.type = true;}
+	else{data.type = false;};
+	console.log(data);
+    if(inputChangedPromise){
+        $timeout.cancel(inputChangedPromise);
+    }
+    inputChangedPromise = $timeout(function()
+	{
+		
+		 var config = {
+			params: {
+			  imgData : data
+			}
+		  };
+		  
+		  var imgid = data.id;
+		  $scope.loaderimg = data.id;
+		  $scope.type = type;
+		$http.post("php_plugins/updateimg.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	console.log(data);
+				$scope.loaderimg = false;
+				$scope.successimg = imgid;
+				console.log('successimg id ' + $scope.successimg);
+				var out = $timeout(function(){	$scope.successimg = false;	}, 1500);
+				
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					console.log("CONNECTIVITY ERROR");
+					$scope.loaderimg = false;
+			})
+			.then(function(){});
+	
+	},1000);
+}
+
+
+$scope.updatesetting = function(data, type){
+	data.type = type;
+	console.log(data);
+    if(inputChangedPromise){
+        $timeout.cancel(inputChangedPromise);
+    }
+    inputChangedPromise = $timeout(function()
+	{
+		console.log(data);
+		
+		 var config = {
+			params: {
+			  settingData : data
+			}
+		  };
+		  
+		  $scope.loadersetting = true;
+		  $scope.settingtype = type;
+		  console.log("setting type ");
+		  console.log(type);
+		$http.post("php_plugins/updatesetting.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	console.log(data);
+				console.log("hiting here");
+				$scope.loadersetting = false;
+				$scope.successsetting = true;
+				var out = $timeout(function(){$scope.successsetting=false;}, 1500);
+				
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					console.log("CONNECTIVITY ERROR");
+					$scope.loadersetting = false;
+			})
+			.then(function(){});
+	
+	},1000);
+}
 	
 	$scope.imgupload = function(tab, id){
 		
+			 $scope.config = {
+    query: function (flowFile, flowChunk) {
+      // function will be called for every request
+      return {
+        id: 2, source: 'flow_query'
+      };
+    }
+  };
+		
 			$scope.tabnum = tab;
+			$rootScope.tabnum = tab;
 			$scope.tabid = id;
+			$rootScope.tabId = id;
 			console.log($scope.tabnum);
 			console.log($scope.tabid);
 			
@@ -303,7 +582,7 @@ $scope.update = function(data){
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ** registerController ** */
-app.controller('loginController', function($rootScope, $scope, $http, Session, Img, Tab, $location) {
+app.controller('loginController', function($rootScope, $scope, $http, Session, Img, Settings, Tab, $location) {
 		
 		$scope.loginInfo = null;
 		$scope.response = "";
@@ -368,6 +647,34 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, I
 			
 		};
 		
+		$scope.getSettings = function(data){
+		
+		 var config = {
+			params: {
+			  settingData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/settings.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	Settings.mysettings = data;
+				console.log("setting data ");
+				console.log( data);
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			.then(function(){ $rootScope.settings = Settings.mysettings; console.log("settings: "); console.log($rootScope.settings[0]); });
+			
+		};
+		
 		$scope.login = function (data) 
 		{
 			
@@ -408,13 +715,22 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, I
 					
 			  		Session.login(data);
 					
+					$rootScope.mainimg = Session.mainimg;
 					
 					console.log(Session.isLoggedIn());
 					console.log(Session.id);
 					console.log(Session.email);
 					console.log(Session.password);
+					console.log(Session.mainimg);
 					
-					$location.path('/arcfolio/user');
+					if(Session.isCompany())
+					{
+						$location.path('/arcfolio/company');
+					}
+					else
+					{
+						$location.path('/arcfolio/user');
+					}
 			  }
 			  else
 			  {
@@ -439,6 +755,7 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, I
 			.then(function(){
 					$scope.getTabs(Session.id);
 					$scope.getImgs(Session.id);
+					$scope.getSettings(Session.id);
 					});
 		};
 		///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -538,24 +855,18 @@ app.controller('testController', function($scope) {
 	
 	$scope.test = 'hello world';
 	
-});
-
-app.controller('testcontrollerm', function($scope, flowFactory) {
+	$scope.register = true;
 	
-$scope.uploadImages = function(){
-				
-				console.log("images fired");
-				
-			$scope.$flow.opts.target = 'php_library/uploader.php';
-			$scope.$flow.upload();
-			$scope.$on('flow::complete', function () {
-				console.log("file is uploaded");
-				})
-			};
+	$scope.onRegister = function()
+	{
+		if($scope.register == false){ $scope.register = true; }else{$scope.register = false;}
+	};
+	
 	
 });
 
-app.controller('testController2', function($scope, Session, Img, Tab) {
+
+app.controller('testController2', function($scope, Session, Img, Settings, Tab) {
 	
 	$scope.email = Session.email;
 	console.log("eamilasd "+Session.email);
@@ -565,7 +876,7 @@ app.controller('testController2', function($scope, Session, Img, Tab) {
 	
 });
 
-app.controller('maintabs', function($scope, Session, Img, Tab) {
+app.controller('maintabs', function($scope, Session, Img, Settings, Tab) {
 	
 	});
 

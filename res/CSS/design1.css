@@ -8,6 +8,14 @@
 	min-height:85px;
 }
 
+.footer-block
+{
+	background-color: #e7f1f3;
+	width: auto; 
+	margin: 4px;	
+	min-height:45px;
+}
+
 .removal
 {
 	position: absolute;
@@ -152,7 +160,7 @@ color: rgb(27, 37, 39);
     color: rgb(27, 37, 39);
 }
 .textbar
-{    width: 100%;
+{    width: 90%;
     background-color: rgb(135, 185, 195);
     border: none;
     padding: 3px;

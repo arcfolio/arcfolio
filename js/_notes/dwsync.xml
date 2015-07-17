@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="app.js" server="ftp.thestarkmarket.com/arcfolio/" local="130794155977805835" remote="130794335400000000" Dst="2" />
+<file name="app.js" server="ftp.thestarkmarket.com/arcfolio/" local="130813201467925374" remote="130813381200000000" Dst="2" />
 <file name="angular-recaptcha.min.js" server="ftp.thestarkmarket.com/arcfolio/" local="130758663218669082" remote="130769120400000000" Dst="2" />
 <file name="angular-recaptcha.js" server="ftp.thestarkmarket.com/arcfolio/" local="130760148293551588" remote="130761502800000000" Dst="2" />
-<file name="sessionsService.js" server="ftp.thestarkmarket.com/arcfolio/" local="130769207877564989" remote="130769387400000000" Dst="2" />
+<file name="sessionsService.js" server="ftp.thestarkmarket.com/arcfolio/" local="130806193800067415" remote="130806373200000000" Dst="2" />
 <file name="myPopoverTemplate.html" server="ftp.thestarkmarket.com/arcfolio/" local="130772457830190354" remote="130772637600000000" Dst="2" />
 <file name="ng-flow-standalone.js" server="ftp.thestarkmarket.com/arcfolio/" local="130778539030440199" remote="130778733600000000" Dst="2" />
 <file name="customFilters.js" server="ftp.thestarkmarket.com/arcfolio/" local="130791985611663280" remote="130792165200000000" Dst="2" />
@@ -11,4 +11,5 @@
 <file name="imgService.js" server="ftp.thestarkmarket.com/arcfolio/" local="130793343180371434" remote="130793523000000000" Dst="2" />
 <file name="ngProgress.js" server="ftp.thestarkmarket.com/arcfolio/" local="130793892419976948" remote="130794072000000000" Dst="2" />
 <file name="uploader.php" server="ftp.thestarkmarket.com/arcfolio/" local="130794088448872163" remote="130794268200000000" Dst="2" />
+<file name="settingsService.js" server="ftp.thestarkmarket.com/arcfolio/" local="130804112097138950" remote="130804291800000000" Dst="2" />
 </dwsync>

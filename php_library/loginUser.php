@@ -42,6 +42,16 @@ class loginUser
 					//$_SESSION['pic_ext'] 		= $row['pic_ext'];
 					//$_SESSION['name'] 			= $row['name'];
 					$_SESSION['email']			= $row['email'];
+					$_SESSION['company']			= $row['company'];
+					
+					if(file_exists("../users/".$id."/main.jpg"))
+					{	$_SESSION['mainimg'] = 	"http://www.thestarkmarket.com/arcfolio/users/".$id."/main.jpg"; }
+					else
+					if(file_exists("../users/".$id."/main.png"))
+					{	$_SESSION['mainimg'] = 	"http://www.thestarkmarket.com/arcfolio/users/".$id."/main.jpg"; }
+					else
+					{	$_SESSION['mainimg'] = 	"http://www.thestarkmarket.com/arcfolio/res/images/cover1.jpg"; }
+					
 					
 					if($remember == 'asdasdf')
 					{

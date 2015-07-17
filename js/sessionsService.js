@@ -24,11 +24,18 @@
 		this.id = data.id;
 		this.email = data.email;
 		this.password = data.password;
+		this.company = data.company;
+		this.mainimg = data.mainimg;
     }; 
 	
 	this.isLoggedIn = function() {
 		if(this.email != null && this.password != null){return true;}else{return false}
 	};
+	
+	this.isCompany = function() {
+		if(this.company != ""){	return true;	}else{	return false;	}
+	};
+	
 	
 });
 

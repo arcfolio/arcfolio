@@ -3,6 +3,25 @@
 <div class="visible-md-block visible-lg-block" style="margin-top:50px;"></div>
 <div class="visible-xs-block visible-sm-block" style="margin-top:4px;"></div>
 
+	<div style="position:absolute; margin-left:10%; width:80%; z-index:1000;" ng-controller="imageviewer">
+    <div class="container slider">
+
+        <!-- enumerate all photos -->
+        <img style="width:100%;" ng-repeat="photo in photos" class="slide" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
+
+        <!-- prev / next controls -->
+        <span class="glyphicon glyphicon-chevron-left" class="arrow prev" ng-click="showPrev()"></span>
+        <span class="glyphicon glyphicon-chevron-right" class="arrow next" ng-click="showNext()"></span>
+
+        <!-- extra navigation controls -->
+        <ul class="nav">
+            <li ng-repeat="photo in photos" ng-class="{'active':isActive($index)}">
+                <img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />
+            </li>
+        </ul>
+
+    </div></div>
+    
 <div class="container">
 	<div class="row" style="margin-bottom:10px;">
     	<div class="col-xs-6 col-md-3" style="padding: 0;">
@@ -27,91 +46,126 @@
   </div>
     <div ng-controller="ModalDemoCtrl">
     <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-body" style="padding-top: 0; padding-bottom: 50px;" ng-hide="imguploader">
-			<div class="row" style="height:50px;">
-				<div class="col-xs-6" style="border-bottom:3px solid black; height: 100%; display:flex; align-items: center;"><h3 style="margin:0;">Account Settings</h3></div>
-				<div class="col-xs-6" style="border-left: 5px solid black; height: 100%; display:flex; align-items: center;margin: 0;"><h3 style="margin:0;color: #333;
+        <div class="modal-body" style="padding-top: 0; padding-bottom: 50px;">
+			<div ng-show="portfolio" class="row" style="height:50px;">
+				<div ng-click="onPortfolio()" class="col-xs-6" style="border-bottom:3px solid black; height: 100%; display:flex; align-items: center;"><h3 style="margin:0;">Account Settings</h3></div>
+				<div ng-click="onPortfolio()" class="col-xs-6" style="border-left: 5px solid black; height: 100%; display:flex; align-items: center;margin: 0;"><h3 style="margin:0;color: #333;
 font-weight: bold;">Portfolio Settings</h3></div>
 			</div>
-			<div class="row" style="font-size: 15px; font-weight: bold; padding-top:13px;">
-				<div class="col-xs-1"></div>
-				<div style="text-align: center;" class="col-xs-2"><p>Number of Tabs:</p></div>
-				<div style="text-align: center;" class="col-xs-2"><p>2</p></div>
-				<div style="text-align: center;" class="col-xs-2"><p>4</p></div>
-				<div style="text-align: center;" class="col-xs-2"><p>6</p></div>
-				<div style="text-align: center;" class="col-xs-2"><p style="border: 3px solid rgb(135, 185, 195);
-margin: 0px 25%;">8</p></div>
-				
-				<div class="col-xs-1"></div>
-			</div>
-			<div class="row" style="padding-top:12px;">
-				<div class="col-xs-1"></div>
-				
-				<div class="col-xs-10">
-					<div class="row">
-						<div class="col-xs-12"  style="padding: 0;">
-						<div ng-repeat="tab in $root.tabs" ng-click="imgupload($index, tab.id)" class="col-xs-6 col-md-3" style="padding: 0;">
-							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
-									<h1 class="ub-header-t-modal">{{tab.name}}</h1>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-				
-				<div class="col-xs-1"></div>
-			</div>
-      		
-			</div>
-			<div class="row" style="padding-top:20px;">
-				<div class="col-xs-1"></div>
-				<div class="col-xs-3"><p style="text-align:center; font-size: 15px; font-weight: bold;">Top 3 Skills:</p></div>
-				<div class="col-xs-7">
-					<div class="row">
-						<input type="text" class="textbar" style="border-top:none;" />
-					</div>
-					<div class="row">
-						<input type="text" class="textbar" />
-					</div>
-					<div class="row">
-						<input type="text" class="textbar" />
-					</div>
-				</div>
-				<div class="col-xs-1"></div>
-			</div>
-			<div class="row" style="padding-top:20px;">
-				<div class="col-xs-1"></div>
-				<div class="col-xs-3"><p style="text-align:center; font-size: 15px; font-weight: bold;">Top Physical Skill:</p></div>
-				<div class="col-xs-7">
-					<div class="row">
-						<input type="text" class="textbar" style="border-top:none;" />
-					</div>
-				</div>
-				<div class="col-xs-1"></div>
-			</div>
-			<div class="row" style="padding-top:20px;">
-				<div class="col-xs-1"></div>
-				<div class="col-xs-7">
-					<div class="row">
-						<button class="btn btn-lg btn-primary btn-block custom-btn" type="button">Save Settings.</button>
-					</div>
-				</div>
-				<div class="col-xs-3"></div>
-				<div class="col-xs-1"></div>
+			
+			<div ng-hide="portfolio" class="row" style="height:50px;">
+				<div ng-click="onPortfolio()" class="col-xs-6" style=" height: 100%; display:flex; align-items: center;"><h3 style="margin:0;color: #333;
+font-weight: bold;">Account Settings</h3></div>
+				<div ng-click="onPortfolio()" class="col-xs-6" style="border-left: 5px solid black; border-bottom:3px solid black; height: 100%; display:flex; align-items: center;margin: 0;"><h3 style="margin:0;">Portfolio Settings</h3></div>
 			</div>
 			
-        </div>
+			
+			<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+		<div ng-hide="portfolio">
 		
-		<div class="modal-body" style="padding-top: 0; padding-bottom: 50px; padding-right: 25px; min-height: 500px;"  ng-show="imguploader">
-			<div class="row" style="height:50px;">
-				<div class="col-xs-6" style="border-bottom:3px solid black; height: 100%; display:flex; align-items: center;"><h3 style="margin:0;">Account Settings</h3></div>
-				<div class="col-xs-6" style="border-left: 5px solid black; height: 100%; display:flex; align-items: center;margin: 0;"><h3 style="margin:0;color: #333;
-font-weight: bold;">Portfolio Settings</h3></div>
+			
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:right; font-size: 15px; font-weight: bold;">Email:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+						<input type="text" class="textbar" style="border-top:none;" />
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
 			</div>
 			
-          <div ng-controller="testcontrollerm" flow-init="{testChunks:false}"  flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
 			<div class="row" style="padding-top:20px;">
-				<div ng-click="imgupload(1)" class="col-xs-1">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:right; font-size: 15px; font-weight: bold;">Reset Password:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+						<input type="text" class="textbar" style="border-top:none;" />
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:right; font-size: 15px; font-weight: bold;">School:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+						<input type="text" class="textbar" style="border-top:none;" />
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:right; font-size: 15px; font-weight: bold;">Primary AIAA Chapter:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+					<div class="styled-select">
+					   <select>
+						  <option>Here is the first option</option>
+						  <option>The second option</option>
+					   </select>
+					</div>
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:right; font-size: 15px; font-weight: bold;">Secondary AIAA Chapter:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+					<div class="styled-select">
+					   <select>
+						  <option>Here is the first option</option>
+						  <option>The second option</option>
+					   </select>
+					</div>
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:right; font-size: 15px; font-weight: bold;">Discoverable Via Explore:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+					<div class="styled-select">
+					   <select>
+						  <option>Here is the first option</option>
+						  <option>The second option</option>
+					   </select>
+					</div>
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:right; font-size: 15px; font-weight: bold;">Currently Seeking Internship:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+					<div class="styled-select">
+					   <select>
+						  <option>Here is the first option</option>
+						  <option>The second option</option>
+					   </select>
+					</div>
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			
+		</div>
+			
+			<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+		<div ng-show="portfolio">
+			<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+			<div ng-show="imguploader">
+			<div ng-controller="flowuploader" flow-init="config"  flow-files-submitted="testupload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1,pdf:1}[$file.getExtension()]">
+			<div class="row" style="padding-top:20px;">
+				<div ng-click="imgupload(tabnum)" class="col-xs-1">
 					<p style="text-align:center; font-size: 15px; font-weight: bold; color:black; cursor: pointer;"><span style="top:2px;" class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Back</p>
 				</div>
 				<div class="col-xs-3"><p style="text-align:center; font-size: 15px; font-weight: bold;">Tab Name: </p>
@@ -140,28 +194,27 @@ font-weight: bold;">Portfolio Settings</h3></div>
             	<div class="col-sm-3">
                       <div ng-repeat="img in $root.imgs"  ng-if="img.tabId == tabid" class="row" style="margin-top:10px;">
                          <div class="col-xs-12">
-                             <input type="text" class="textbar" style="border-top:none;" ng-model="img.name" placeholder="Image Name" />
-                         </div>
+                             <input type="text" class="textbar" style="border-top:none; width: 90%;" ng-model="img.name"  ng-change="updateimg(img, 'name')" placeholder="Image Name" />
+                        
+						<img ng-show="loaderimg == img.id && type == 'name'" style="height: 17px; margin-bottom: 5px; position: absolute; top: 4px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="successimg == img.id && type == 'name'" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708; position: absolute; top: 4px;;"></span>
+						
+						 </div>
                          <div class="col-xs-12">
-                             <input type="text" class="textbar" style="border-top:none;"  ng-model="img.desc" value="Image Description" />
-                         </div>
+                             <input type="text" class="textbar" style="border-top:none; width: 90%;"  ng-model="img.desc"  ng-change="updateimg(img, 'desc')" value="Image Description" />
+                        
+						<img  ng-show="loaderimg == img.id && type == 'desc'" style="height: 17px; margin-bottom: 5px; position: absolute; top: 4px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span  ng-show="successimg == img.id && type == 'desc'" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708; position: absolute; top: 4px;"></span>
+						
+						 </div>
                       </div>
-                      
-					  <div ng-repeat="file in $flow.files" class="row" style="margin-top:10px;">
-                      	<div class="col-xs-12">
-                           <input type="text" class="textbar" style="border-top:none;" ng-model="$flow.files[$index].name" placeholder="Image Name" />
-                        </div>
-                        <div class="col-xs-12">
-                           <input type="text" class="textbar" style="border-top:none;"  ng-model="$flow.files[$index].desc" value="Image Description" />
-                        </div>
-                       </div>
                 </div>
                 <div class="col-sm-9">
 					
 					<div ng-repeat="img in $root.imgs"   ng-if="img.tabId == tabid" class="gallery-box">
 					  <span style="font-weight: bold;" class="title">{{img.name}}</span>
 					  <div class="thumbnail"  popover="{{img.desc}}" popover-placement="bottom" popover-trigger="mouseenter" >
-						<img ng-src="users/{{img.ownerId}}/{{img.id}}.jpg" style="height: 200px; width: 100%; display: block; background-color: rgba(188,188,188,1.00);">
+						<img ng-src="users/{{img.ownerId}}/tab_thumbnails/{{img.id}}.{{img.filetype}}" style="height: 200px; width: 100%; display: block; background-color: rgba(188,188,188,1.00);">
                           
 					  </div>
                             <p ng-if="(img.desc) != null" style="color:black; overflow: hidden; white-space: nowrap; font-weight: bold;">{{img.desc}}</p>
@@ -189,6 +242,154 @@ font-weight: bold;">Portfolio Settings</h3></div>
                 </div>
             </div> 
         </div>
+        </div>
+			<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+			<div ng-hide="imguploader">
+			<div class="row" style="font-size: 15px; font-weight: bold; padding-top:13px;">
+				
+				
+			<div ng-controller="flowuploader" flow-init="config"  flow-files-submitted="testupload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1,pdf:1}[$file.getExtension()]">
+			
+            <div class="row">
+            	<div class="col-sm-3">
+                      <div ng-repeat="img in $root.imgs"  ng-if="img.tabId == tabid" class="row" style="margin-top:10px;">
+                         <div class="col-xs-12">
+                             <input type="text" class="textbar" style="border-top:none; width: 90%;" ng-model="img.name"  ng-change="updateimg(img, 'name')" placeholder="Image Name" />
+                        
+						<img ng-show="loader" style="height: 17px; margin-bottom: 5px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="success" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708;"></span>
+						
+						 </div>
+                         <div class="col-xs-12">
+                             <input type="text" class="textbar" style="border-top:none; width: 90%;"  ng-model="img.desc"  ng-change="updateimg(img, 'desc')" value="Image Description" />
+                        
+						<img ng-show="loader" style="height: 17px; margin-bottom: 5px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="success" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708;"></span>
+						
+						 </div>
+                      </div>
+                </div>
+                <div class="col-sm-9">
+					
+					<div ng-repeat="img in $root.imgs"   ng-if="img.tabId == tabid" class="gallery-box">
+					  <span style="font-weight: bold;" class="title">{{img.name}}</span>
+					  <div class="thumbnail"  popover="{{img.desc}}" popover-placement="bottom" popover-trigger="mouseenter" >
+						<img ng-src="users/{{img.ownerId}}/tab_thumbnails/{{img.id}}.{{img.filetype}}" style="height: 200px; width: 100%; display: block; background-color: rgba(188,188,188,1.00);">
+                          
+					  </div>
+                            <p ng-if="(img.desc) != null" style="color:black; overflow: hidden; white-space: nowrap; font-weight: bold;">{{img.desc}}</p>
+                            <span ng-click="file.cancel()"  class="glyphicon glyphicon-remove removal" aria-hidden="true"></span>
+    				</div>
+					
+					<div ng-repeat="file in $flow.files" class="gallery-box">
+					  <span style="font-weight: bold;" class="title">{{file.name}}</span>
+					  <div class="thumbnail" ng-show="$flow.files.length" popover="{{file.desc}}" popover-placement="bottom" popover-trigger="mouseenter" >
+						<img flow-img="file" />
+					  </div>
+					  <div ng-if="(file.progress() * 100) < 100" style="height:6px;" class="progress progress-striped" ng-class="{active: file.isUploading()}">
+						<div class="progress-bar" role="progressbar" style="height: 6px; background-color: rgb(27, 37, 39);"
+							 aria-valuenow="{{file.progress()}}"
+							 aria-valuemin="0"
+							 aria-valuemax="100"
+							 ng-style="{width: (file.progress() * 100) + '%'}">
+						  <span class="sr-only">{{file.progress()}}% Complete</span>
+						</div>
+					  </div>
+
+                            <p ng-if="(file.desc) != null" style="color:black; overflow: hidden; white-space: nowrap; font-weight: bold;">{{file.desc}}</p>
+                            <p ng-if="(file.desc) == null" style="color:black; overflow: hidden; white-space: nowrap; font-weight: bold;">Image Description.</p>
+
+                            <span ng-click="file.cancel()"  class="glyphicon glyphicon-remove removal" aria-hidden="true"></span>
+    				</div>
+                </div>
+            </div> 
+			</div>
+			<div class="row" style="padding-top:12px;">
+			<div class="col-xs-3">
+			<div style="margin: 0px 0px 0px 8px;" class="row" ng-controller="flowuploader" flow-init="config2"  flow-files-submitted="testupload2()" flow-file-added="!!{png:1,jpg:1,jpeg:1}[$file.getExtension()]">
+			
+					<!-- ngIf: img.tabId == tabid --><!-- ngIf: img.tabId == tabid --><div style="margin-top: 0px;" ng-if="img.tabId == tabid" class="gallery-box ng-scope">
+					  <span style="font-weight: bold;" class="title">Main Background</span>
+					  <div class="thumbnail" style="height: auto;" ng-show="$flow.files.length" >
+						<img flow-img="file"  style="width: 100%; display: block; background-color: rgb(188, 188, 188);"/>
+					  </div>
+					  
+					  	<div flow-drop ng-hide="$flow.files.length"  style="height: auto;" class="thumbnail" popover="" popover-placement="bottom" popover-trigger="mouseenter">
+						<img src="{{$root.mainimg}}" ng-src="{{$root.mainimg}}" style="width: 100%; display: block; background-color: rgb(188, 188, 188);">
+	     			  </div>
+							<span style="width: 80%; margin-left: 10%;" class="btn btn-default" flow-btn="">Change Image<input style="visibility: hidden; position: absolute;" type="file"></span>
+					 
+    				</div><!-- end ngIf: img.tabId == tabid --><!-- end ngIf: img.tabId == tabid -->
+				</div>
+			<div style="margin: 0px 0px 0px 8px;" class="row" ng-controller="flowuploader" flow-init="config3"  flow-files-submitted="testupload2()" flow-file-added="!!{pdf:1}[$file.getExtension()]">
+					<!-- ngIf: img.tabId == tabid --><!-- ngIf: img.tabId == tabid --><div style="margin-top: 0px;" ng-if="img.tabId == tabid" class="gallery-box ng-scope">
+					  <span style="font-weight: bold;" class="title">Resume</span>
+					  		<h3 flow-drop style="text-align: center; margin-top: 28px; color: rgb(163, 171, 174); border: 2px dashed rgb(163, 171, 174); margin-bottom: 10px; padding: 7px;">Drag and drop image.</h3>
+							<span style="width: 80%; margin-left: 10%;" class="btn btn-default" flow-btn="">Upload PDF<input style="visibility: hidden; position: absolute;" type="file"></span>
+					 
+    				</div><!-- end ngIf: img.tabId == tabid --><!-- end ngIf: img.tabId == tabid -->
+				</div>
+				
+				
+			</div>
+				
+				<div class="col-xs-8">
+						<div ng-repeat="tab in $root.tabs" ng-click="imgupload($index, tab.id)" class="col-xs-6 col-md-3" style="padding: 0;">
+							<div id="testdiv" class="user-block-edit" style="min-height:200px; display:flex; align-items:center;">
+									<h1 class="ub-header-t-modal">{{tab.name}}</h1>
+							</div>
+						</div>
+						
+				<div class="col-xs-1"></div>
+			</div>
+      		
+			</div>
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:center; font-size: 15px; font-weight: bold;">Top 3 Skills:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+					
+						<input type="text"  ng-model="$root.settings[0].skill1"  ng-change="updatesetting($root.settings[0], 'skill1')" class="textbar" style="border-top:none;" />
+						
+						<img ng-show="loadersetting && settingtype == 'skill1'" style="height: 17px; margin-bottom: 5px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="successsetting && settingtype == 'skill1'" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708;"></span>
+						
+					</div>
+					<div class="row">
+						<input type="text"  ng-model="$root.settings[0].skill2"  ng-change="updatesetting($root.settings[0], 'skill2')" class="textbar" style="border-top:none;" />
+						
+						<img ng-show="loadersetting && settingtype == 'skill2'" style="height: 17px; margin-bottom: 5px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="successsetting && settingtype == 'skill2'" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708;;"></span>
+						
+					</div>
+					<div class="row">
+						<input type="text"  ng-model="$root.settings[0].skill3"  ng-change="updatesetting($root.settings[0], 'skill3')" class="textbar" style="border-top:none;" />
+						
+						<img ng-show="loadersetting && settingtype == 'skill3'" style="height: 17px; margin-bottom: 5px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="successsetting && settingtype == 'skill3'" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708;"></span>
+						
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			<div class="row" style="padding-top:20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3"><p style="text-align:center; font-size: 15px; font-weight: bold;">Top Physical Skill:</p></div>
+				<div class="col-xs-7">
+					<div class="row">
+						
+						<input type="text"  ng-model="$root.settings[0].skill4"  ng-change="updatesetting($root.settings[0], 'skill4')" class="textbar" style="border-top:none;" />
+						
+						<img ng-show="loadersetting && settingtype == 'skill4'" style="height: 17px; margin-bottom: 5px;" src="http://www.thestarkmarket.com/arcfolio/res/images/icons/350.GIF">
+						<span ng-show="successsetting && settingtype == 'skill4'" class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 18px; color: #0F8708;"></span>
+						
+					</div>
+				</div>
+				<div class="col-xs-1"></div>
+			</div>
+			</div>
+		</div>
 	</div>
     </script>
     	<div ng-click="open('lg')" class="col-xs-6 col-md-3" style="padding: 0;">
@@ -206,9 +407,7 @@ font-weight: bold;">Portfolio Settings</h3></div>
     <div class="visible-md-block visible-lg-block">
     <div class="row">
     	<div class="col-xs-12"  style="padding: 0;">
-            	<div style="height:100%; width: 100%; background-image:url(res/images/userimages/m2.jpg); background-repeat: no-repeat;
-	    background-size: cover;
-		 background-position: center center; position:absolute; min-height:800px;"></div>
+            	<div main-img="{{$root.mainimg}}"></div>
             
             <div ng-repeat="tab in $root.tabs.slice(0,4)" class="col-xs-6 col-md-3" style="padding: 0;">
                 <div id="testdiv" class="user-block">
@@ -254,7 +453,7 @@ font-weight: bold;">Portfolio Settings</h3></div>
     </object>
 		</div>
     </script>
-      <div ng-click="imgupload(1)" class="row" style="margin-bottom:25px;">
+      <div ng-click="imgupload(1)" class="row" >
     	<div class="col-xs-12" style="padding: 0;">
         	<div id="testdiv" class="default-block" style="display:flex; align-items:center;">
             		<h1 style="font-size: 36px; width: 100%; text-align:center; margin:0;"><span style="color: #1B2527">View Resume</span></h1>
