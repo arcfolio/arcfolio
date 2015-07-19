@@ -15,10 +15,10 @@ class errorParser
 		//check if type is default/user//
 		if($type == '' || $type == 'user')
 		{
-			$this->email = $obj[email];
-			$this->pass1 = $obj[pass1];
-			$this->pass2 = $obj[pass2];
-			$captcha = $obj[response];
+			$this->email = $obj["email"];
+			$this->pass1 = $obj["pass1"];
+			$this->pass2 = $obj["pass2"];
+			$captcha = $obj["response"];
 			//check that no inputs are null.// (note: pass2 does not need a null check, it is match checked against pass1 later.)//
 			
 			//if($this->username == NULL) 	{ $errors[] = "Username"; }
@@ -54,7 +54,7 @@ class errorParser
 			else{
 			$response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LcFmQYTAAAAAMR4m-eenxq5Vlj_9r9U-IlZ4WKS&response=".$captcha);
 			$response = json_decode($response, true);
-			if($response["success"] == false) {$errors[] = 'We have detected that you are a robot, please try again.'.$response[success].' asdf';}
+			if($response["success"] == false) {$errors[] = 'We have detected that you are a robot, please try again.'.$response["success"].' asdf';}
 			}
 			////////////////////////////////////////////////////////////////////////////////////////////
 		}
@@ -109,7 +109,10 @@ class errorParser
 
 		// initialize some vars //			
 		$first_msg = 	$e[$null_count + 1];		
-		$second_msg = 	$e[2];
+		if($tot_count > 2)
+		{	
+			$second_msg = 	$e[2];
+		}
 		$last_msg = 	$e[$tot_count - 1];
 
 		// create basic error msg //

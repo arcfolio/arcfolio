@@ -11,4 +11,13 @@
 <file name="ui.html" server="ftp.thestarkmarket.com/arcfolio/" local="130813213299973876" remote="130813393200000000" Dst="2" />
 <file name="test.pdf" server="ftp.thestarkmarket.com/arcfolio/" local="130781657893792984" remote="130781837400000000" Dst="2" />
 <file name="company.html" server="ftp.thestarkmarket.com/arcfolio/" local="130805203988153771" remote="130805383800000000" Dst="2" />
+<file name="company.html" server="50.112.178.111" local="130805203988153771" remote="130815883800000000" Dst="2" />
+<file name="default.html" server="50.112.178.111" local="130778635306734120" remote="130815883800000000" Dst="2" />
+<file name="design1.html" server="50.112.178.111" local="130815760193247019" remote="130815939600000000" Dst="2" />
+<file name="myPopoverTemplate.html" server="50.112.178.111" local="130772457836844756" remote="130815883800000000" Dst="2" />
+<file name="navBar.html" server="50.112.178.111" local="130762550632694343" remote="130815883800000000" Dst="2" />
+<file name="ui.html" server="50.112.178.111" local="130818060907837573" remote="130818240600000000" Dst="2" />
+<file name="uploadtest.html" server="50.112.178.111" local="130799763327112764" remote="130815883800000000" Dst="2" />
+<file name="test.pdf" server="50.112.178.111" local="130781657893792984" remote="130815883800000000" Dst="2" />
+<file name="userInterface.html" server="50.112.178.111" local="130775207061041004" remote="130815883800000000" Dst="2" />
 </dwsync>

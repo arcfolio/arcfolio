@@ -18,7 +18,7 @@ class updateTabs
 		
 		if($real == false)
 		{
-			if(mysql_query("INSERT INTO `thestark_arcfolio`.`tabs` (`id`, `name`, `ownerId`) VALUES ('$id', '$name', '$ownerId')"))
+			if(mysql_query("INSERT INTO `arcfolio`.`tabs` (`id`, `name`, `ownerId`) VALUES ('$id', '$name', '$ownerId')"))
 			{
 					$this->result = true;
 			}
@@ -32,8 +32,8 @@ class updateTabs
 			// if db only has one entry.. //
 			if($sqlnum == 1)
 			{
-				if(mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `name` =  '$name' WHERE  `tabs`.`id` ='$id';") &&
-				mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
+				if(mysql_query("UPDATE  `arcfolio`.`tabs` SET  `name` =  '$name' WHERE  `tabs`.`id` ='$id';") &&
+				mysql_query("UPDATE  `arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
 				{
 					$this->result = true;
 				}

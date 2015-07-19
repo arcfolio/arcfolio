@@ -1,5 +1,5 @@
 //angular module for Arcfolio.//
-var app = angular.module("Arcfolio", ['ngRoute', 'ngTouch', 'ngProgress', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'imgService', 'settingsService', 'ngSanitize', 'ngAnimate', 'flow', 'arcfolioFilters']);
+var app = angular.module("Arcfolio", ['ngRoute', 'ngTouch', 'ngProgress', 'ui.bootstrap', 'vcRecaptcha', 'sessionService', 'tabService', 'imgService', 'settingsService', 'ngSanitize', 'ngAnimate', 'flow', 'arcfolioFilters','ngCookies']);
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //configure router - used for sending user to different pages dynamically.//*/
@@ -10,32 +10,32 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
 	console.log("router working...");
     $locationProvider.html5Mode(true);
   	$routeProvider
-	.when('/arcfolio/index.php', 
+	.when('/index2.php', 
 	{
 	   	templateUrl: 'html_plugins/design1.html',
 	   	controller: 'testController'
 	})
 	
 	
-	.when('/arcfolio/user', 
+	.when('/user_:userid', 
 		{
 		templateUrl: 'html_plugins/ui.html',
-		controller: 'testController2'
+		controller: 'userController'
   	})
 	
-	.when('/arcfolio/company', 
+	.when('/company', 
 		{
 		templateUrl: 'html_plugins/company.html',
 		controller: 'testController2'
   	})
 	
-	.when('/arcfolio/tempIntern', 
+	.when('/tempIntern', 
 		{
 		templateUrl: 'html_plugins/tempHolder.html',
 		controller: 'testController2'
   	})
 	
-	.when('/arcfolio/uploadtest', 
+	.when('/uploadtest', 
 		{
 		templateUrl: 'html_plugins/uploadtest.html',
 		controller: 'testController2'
@@ -43,7 +43,7 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
 	//send all other pages back to index.
     .otherwise(
 	{
-		redirectTo: '/arcfolio/index.php'
+		redirectTo: '/index2.php'
 	});
 	
   flowFactoryProvider.defaults = {
@@ -61,12 +61,181 @@ app.config(function($routeProvider, $locationProvider, flowFactoryProvider)
 
 	
 
-app.run(function($rootScope) {
+app.run(function($rootScope, $cookies, $cookieStore, $http, Session, Settings, $location, Tab) {
 	
-	
+	$rootScope.pdfsuccess = false;
 	//this hides the re-enter password input in default.html//
 	$rootScope.registerBool = false;
 	$rootScope.response = null;
+	
+	$rootScope.autologin = function()
+	{
+		console.log("loginworking...");
+		if($cookies.idCookie != null && $cookies.passCookie != null)
+		{
+			// send cookie data to login function, defined later in section.//
+				console.log("loginfired");
+				  //configure get data to send to php//
+				  var data = [{"test" : "testtesttest"}];
+				  
+				  var config = {
+					params: {
+					  loginData : data
+					}
+				  };
+				  
+				  //loading animation goes here//
+				  
+				  $http.post("php_plugins/autologin.php", null, config)
+					.success(function (data, status, headers, config)
+					{
+					  //finish animation process here//
+					  
+					  
+					  //check if response data shows a backend failure.//
+					  if(data.failure == true || data == null)
+					  {
+						  //process backend failure//
+							console.log("ERROR://///////////");
+							console.log(data);
+							
+					  }
+					  //response data is without backend failure//
+					  else if(data.email != null)
+					  {
+						  //process correct data//
+							console.log("SUCESSFUL SESSION CREATION");
+							
+							Session.login(data);
+							
+							//$rootScope.mainimg = Session.mainimg;
+							
+							console.log(Session.isLoggedIn());
+							console.log(Session.id);
+							console.log(Session.email);
+							console.log(Session.password);
+							console.log(Session.mainimg);
+							
+							
+							if(Session.isCompany())
+							{console.log("company: "+ Session.company);
+								$location.path('/company');
+							}
+							else
+							{
+								
+								$rootScope.UiID = Session.id;
+								$rootScope.SessionID = Session.id;
+								//$location.path('/user_'+Session.id);
+							}
+					  }
+					  else
+					  {
+						  console.log(data); console.log("hmmm");
+					  }
+					  
+					})
+					//there was an error sending the data to php.//
+					.error(function (data, status, headers, config)
+					{
+							console.log("CONNECTIVITY ERROR");
+					})
+					.then(function(){
+							$rootScope.getTabs(Session.id);
+							$rootScope.getImgs(Session.id);
+							$rootScope.getSettings(Session.id);
+							});
+				};
+				///////////////////////////////////////////////////////////////////////////////////////////////////
+		}
+		
+		
+	$rootScope.getImgs = function(data){
+	
+		 var config = {
+			params: {
+			  imgData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/imgs.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	$rootScope.UIimgs = data;
+				console.log("UI IMGS working");
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			
+		};
+		
+		$rootScope.getTabs = function(data){
+		
+		 var config = {
+			params: {
+			  tabData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/tabs.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	Tab.mytabs = data;
+				console.log("tab data " + data);
+				if(Tab.mytabs == "")
+				{
+					console.log("tabs are null");
+					Tab.mytabs = [ {'deleted' : 0, 'lastUpdated' : null, 'name' : 'tab #1' , 'ownerId' : Session.id, 'real': false, 'id': null } ];
+				}
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			.then(function(){ Tab.count(); Tab.fillTabs(Session.id); $rootScope.tabs = Tab.mytabs; });
+		};
+		
+		$rootScope.getSettings = function(data){
+		
+		 var config = {
+			params: {
+			  settingData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/settings.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	Settings.mysettings = data;
+				console.log("setting data ");
+				console.log( data);
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			.then(function(){ $rootScope.settings = Settings.mysettings; console.log("settings: "); console.log($rootScope.settings[0]); });
+			
+		};
+		
+		
 	
 	
 	//this toggles the re-enter password input.
@@ -77,6 +246,8 @@ app.run(function($rootScope) {
 		else if($rootScope.registerBool == true)
 		{ $rootScope.registerBool = false }
 		};
+		
+		$rootScope.autologin();
 	
 });
 
@@ -124,7 +295,7 @@ app.directive('newsfeed', function()
 						  if (count > 4) { count = 1;}
 						var newWidth = 600 + slides.length + 1;
 						slides.push({
-						  image: 'http://thestarkmarket.com/arcfolio/res/images/TestBanner' + count + '.jpg',
+						  image: 'http://www.arcfolio.com/res/images/TestBanner' + count + '.jpg',
 						  text: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
 						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
 						  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ipsum a sem elementum rhoncus. Pellentesque eleifend quam tellus, id mollis mi pretium ut. Cras efficitur eros a vestibulum rhoncus. Nam magna sapien, congue ac metus sed, eleifend gravida ipsum. Fusce elit metus, auctor sed gravida eget, posuere sed mauris. Proin commodo metus non risus porttitor ultricies. Pellentesque ultricies scelerisque tincidunt.',
@@ -149,11 +320,11 @@ app.directive('newsfeed', function()
 app.directive('mainImg', function($rootScope){
     return function(scope, element, attrs){
        // var url = attrs.mainImg;
-        element.css({ 'background-image': 'url(' + $rootScope.mainimg +')', 'position':'absolute', 'height':'100%', 'width':' 100%', 'background-repeat':' no-repeat', 'background-size':' cover', 'background-position':' center center', ' position':'absolute', ' min-height':'800px' });
+        element.css({ 'background-image': 'url(' + $rootScope.UImainimg +')', 'position':'absolute', 'height':'100%', 'width':' 100%', 'background-repeat':' no-repeat', 'background-size':' cover', 'background-position':' center center', ' position':'absolute', ' min-height':'800px' });
     	scope.$watch(function() {
-			  return $rootScope.mainimg;
+			  return $rootScope.UImainimg;
 			}, function() {
-				element.css({ 'background-image': 'url(' + $rootScope.mainimg +')', 'position':'absolute', 'height':'100%', 'width':' 100%', 'background-repeat':' no-repeat', 'background-size':' cover', 'background-position':' center center', ' position':'absolute', ' min-height':'800px' });
+				element.css({ 'background-image': 'url(' + $rootScope.UImainimg +')', 'position':'absolute', 'height':'100%', 'width':' 100%', 'background-repeat':' no-repeat', 'background-size':' cover', 'background-position':' center center', ' position':'absolute', ' min-height':'800px' });
     			console.log("runs on change");
 			}, true);
 	};
@@ -168,17 +339,238 @@ app.directive('backImg', function(){
     };
 });
 
-app.controller('imageviewer', function ($scope) {
+app.controller('userController', function($scope, $routeParams, $http, $rootScope, Session){
+	
+	$rootScope.UiID = $routeParams.userid;
+	$rootScope.SessionID = Session.id;
+	$scope.showImgViewer = false;
+	$scope.reportImg = false;
+	$scope.thankyou = false;
+	
+    $scope.photos = [ {src: 'http://arcfolio.com/res/images/icons/imageviewerloading.gif', description: 'Loading Image'}];
+
+	
+	$scope.resetIV = function() 
+	{
+		$scope.showImgViewer = false; $scope.photos = [ {src: 'http://arcfolio.com/res/images/icons/imageviewerloading.gif', description: 'Loading Image'}];
+		$scope._Index = 0; $scope.reportImg = false;
+	};
+	$scope.report = function() 
+	{
+		if($scope.reportImg == false)
+		{
+			$scope.reportImg = true;
+		}
+		else
+		{
+			$scope.reportImg = false;
+		}
+	};
+    // initial image index
+    $scope._Index = 0;
+
+    // if a current image is the same as requested image
+    $scope.isActive = function (index) {
+        return $scope._Index === index;
+    };
+
+    // show prev image
+    $scope.showPrev = function () {
+        $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.photos.length - 1;
+    };
+
+    // show next image
+    $scope.showNext = function () {
+        $scope._Index = ($scope._Index < $scope.photos.length - 1) ? ++$scope._Index : 0;
+    };
+
+    // show a certain image
+    $scope.showPhoto = function (index) {
+        $scope._Index = index;
+    };
+	
+	$scope.tabview = function(data){
+	
+				
+				$scope.showImgViewer = true;
+		 var config = {
+			params: {
+			  tabID : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/tabview.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			  if(data == "")
+			  {
+				  $scope.holder =  [ {src: 'http://arcfolio.com/res/images/icons/imageviewernotfound.jpg', description: 'No images found.'}];
+				  console.log(data);
+			  }
+			  else
+			  {
+				  console.log("data nf " + data);
+			 	  $scope.holder = data;
+			  }
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			.then(function(data, status, headers, config){
+   					 $scope.photos = $scope.holder;
+					 console.log($scope.holder);
+	   })
+			
+		};
+		
+	
+	$scope.getImgs = function(data){
+	
+		 var config = {
+			params: {
+			  imgData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/imgs.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	$rootScope.UIimgs = data;
+				console.log("UI IMGS working");
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			
+		};
+		
+		$scope.getTabs = function(data){
+		
+		 var config = {
+			params: {
+			  tabData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/tabs.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	$rootScope.UItabs = data;
+				console.log("UI TABS working");
+				
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			
+		};
+		
+		$scope.getMainImg = function(data){
+		
+		 var config = {
+			params: {
+			  mainimgData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/mainimg.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	$rootScope.UImainimg = data.mainimg;
+				console.log("UI mainimg working");
+				console.log(data);
+				
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			
+		};
+		
+		$scope.sendReport = function(rulevar, commentvar, imgIdVar, imgSrcVar){
+			
+			var data = [
+							{rule: rulevar, comment: commentvar, imgId: imgIdVar, src: imgSrcVar}
+						];
+		
+		 var config = {
+			params: {
+			  reportedData : data
+			}
+		  };
+		  
+		  //loading animation goes here//
+		  
+		$http.post("php_plugins/sendReported.php", null, config)
+			.success(function (data, status, headers, config)
+			{
+			  //finish animation process here//
+			 	if(data.failure == false)
+				{
+					$scope.thankyou = true;	
+					console.log("image logged");
+				}
+				else
+				{
+					$scope.thankyou = true;
+					console.log("image not logged");
+					console.log(data);	
+				}
+				
+			  
+			})
+			//there was an error sending the data to php.//
+			.error(function (data, status, headers, config)
+			{
+					return console.log("CONNECTIVITY ERROR");
+			})
+			
+		};
+		
+		
+	
+	$scope.getImgs($routeParams.userid);
+	$scope.getTabs($routeParams.userid);
+	$scope.getMainImg($routeParams.userid);
+	
+	
+	});
+
+app.controller('imageviewer', function ($scope, $rootScope) {
 
     // Set of Photos
     $scope.photos = [
-        {src: 'http://farm9.staticflickr.com/8042/7918423710_e6dd168d7c_b.jpg', desc: 'Image 01'},
-        {src: 'http://farm9.staticflickr.com/8449/7918424278_4835c85e7a_b.jpg', desc: 'Image 02'},
-        {src: 'http://farm9.staticflickr.com/8457/7918424412_bb641455c7_b.jpg', desc: 'Image 03'},
-        {src: 'http://farm9.staticflickr.com/8179/7918424842_c79f7e345c_b.jpg', desc: 'Image 04'},
-        {src: 'http://farm9.staticflickr.com/8315/7918425138_b739f0df53_b.jpg', desc: 'Image 05'},
-        {src: 'http://farm9.staticflickr.com/8461/7918425364_fe6753aa75_b.jpg', desc: 'Image 06'}
-    ];
+  {src: 'http://farm9.staticflickr.com/8042/7918423710_e6dd168d7c_b.jpg', desc: 'Image 01'},
+  {src: 'http://farm9.staticflickr.com/8449/7918424278_4835c85e7a_b.jpg', desc: 'Image 02'},
+  {src: 'http://farm9.staticflickr.com/8457/7918424412_bb641455c7_b.jpg', desc: 'Image 03'},
+  {src: 'http://farm9.staticflickr.com/8179/7918424842_c79f7e345c_b.jpg', desc: 'Image 04'},
+  {src: 'http://farm9.staticflickr.com/8315/7918425138_b739f0df53_b.jpg', desc: 'Image 05'},
+  {src: 'http://farm9.staticflickr.com/8461/7918425364_fe6753aa75_b.jpg', desc: 'Image 06'}
+  ];
 
     // initial image index
     $scope._Index = 0;
@@ -303,13 +695,13 @@ app.controller('flowuploader', function ($scope,flowFactory, Session, Img, Setti
 		$scope.$flow.upload();
 		$scope.$on('flow::complete', function () { 
 			console.log("works on completion");
-			var thelink = "http://www.thestarkmarket.com/arcfolio/users/" + Session.id + "/main.jpg";
+			var thelink = "http://www.arcfolio.com/users/" + Session.id + "/main.jpg";
 			console.log(thelink);
 			$scope.getMain(thelink).then(function() {
 															console.log("asdasdfaf");
 															var time = new Date().getTime() / 1000;
 															Session.mainimg = thelink + "?" + time;
-															$rootScope.mainimg = Session.mainimg;
+															$rootScope.UImainimg = Session.mainimg;
 															$scope.$flow.cancel();
 															console.log($rootScope.mainimg);
 															//$scope.$apply(
@@ -319,6 +711,18 @@ app.controller('flowuploader', function ($scope,flowFactory, Session, Img, Setti
 			
 		 
 		 });
+	};
+	
+	
+	$scope.testupload3 = 
+	function()
+	{
+		$scope.$flow.upload();
+		$scope.$on('flow::complete', function () { 
+		    $rootScope.pdfsuccess = true;
+			console.log("pdf works");
+	});
+	
 	};
 	
 	$scope.getMain = function(src) {
@@ -661,6 +1065,7 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, I
 			.success(function (data, status, headers, config)
 			{
 			  //finish animation process here//
+			  if(data == null){console.log("data is null");}
 			 	Settings.mysettings = data;
 				console.log("setting data ");
 				console.log( data);
@@ -702,7 +1107,7 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, I
 					console.log(data);
 					
 					
-					$scope.response = "ERROR: Your email or password is incorrect.";
+					$scope.response = "ERROR: Please check that your email and password are correct and that your account has been activated";
 					$scope.responsecolor = "red";
 					$scope.responsedisable = "";
 					
@@ -715,7 +1120,7 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, I
 					
 			  		Session.login(data);
 					
-					$rootScope.mainimg = Session.mainimg;
+					//$rootScope.mainimg = Session.mainimg;
 					
 					console.log(Session.isLoggedIn());
 					console.log(Session.id);
@@ -723,20 +1128,21 @@ app.controller('loginController', function($rootScope, $scope, $http, Session, I
 					console.log(Session.password);
 					console.log(Session.mainimg);
 					
+					
 					if(Session.isCompany())
-					{
-						$location.path('/arcfolio/company');
+					{console.log("company: "+ Session.company);
+						$location.path('/company');
 					}
 					else
 					{
-						$location.path('/arcfolio/user');
+						$location.path('/user_'+Session.id);
 					}
 			  }
 			  else
 			  {
 				  console.log(data); console.log("hmmm");
 				  
-					$scope.response = "ERROR: Your email or password is incorrect.";
+					$scope.response = "ERROR: Please check that your email and password are correct and that your account has been activated";
 					$scope.responsecolor = "red";
 					$scope.responsedisable = "";
 				  
@@ -788,6 +1194,8 @@ app.controller('registerController', function($scope, $http, vcRecaptchaService)
 	$scope.createAccount = function(data)
 		{
 			
+			console.log(data);
+			
 			if(data != null)
 			{
 			data.response = vcRecaptchaService.getResponse();
@@ -802,7 +1210,7 @@ app.controller('registerController', function($scope, $http, vcRecaptchaService)
 		  };
 		  
 		  //loading animation goes here//
-		  
+		  console.log("account data here: " + data);
 		  $http.post("php_plugins/createAccount.php", null, config)
 			.success(function (data, status, headers, config)
 			{

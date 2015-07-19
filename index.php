@@ -56,28 +56,35 @@
     <![endif]-->
   </head>
 
-  <body ng-app="Arcfolio" class="mainbody" style="padding-top:0;">
+  <body ng-app="Arcfolio" class="mainbody" style="padding-top:0; background-color: black;">
+  
+  <!-- Google analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-65207845-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  <img src="construction2.jpg" height="100%" width="100%">
   
   <!--navbar></navbar-->
   
-    
-				<div ng-view></div>
+    <!--
+	<div ng-view></div>
             
-            <!--div class="row" style=" min-height:300px; height:auto; margin:0;">
-      		</div>
-            <div class="row" style="background-color: rgb(210, 210, 210); position:absolute; bottom:0; width: 100%; border-top: 2px solid rgb(152, 152, 152); padding-top: 10px;">
-        		<div class="container">
-                	<div style="padding-left: 15px; padding-right: 15px;" class="row">
-                    <p style="font-weight: bold; float: left;">© ArcFolio 2015</p> <p style="float: right; font-weight: bold; font-size: 12px; margin-top: 2px;">Terms of Service | Privacy Policy | Join</p>
-                    </div>
-                    </div>
-      		</div>
-    <!--/.container-->
+            
 
 	
     <div class="container">
     	<footer></footer>
     </div>
+    -->
 
     
     <!-- Bootstrap core JavaScript

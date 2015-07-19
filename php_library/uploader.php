@@ -68,16 +68,16 @@ function createFileFromChunks($temp_dir, $fileName, $chunkSize, $totalSize) {
 			
 			
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			$filename = 'http://www.thestarkmarket.com/arcfolio/php_library/temp/'.$fileName;
+			$filename = 'http://www.arcfolio.com/php_library/temp/'.$fileName;
 			$tempfile = 'temp/'.$fileName;
 			
 			
 			 $info = pathinfo($fileName);
 			 
-				define('DEFAULT_DB_HOST' , 'localhost');
-				 define('DEFAULT_DB_PASS' , 'arcfolio12');
-				 define('DEFAULT_DB_USER' , 'thestark_AFMaker');
-				 define('DEFAULT_DB' , 'thestark_arcfolio');
+				 define("DEFAULT_DB_HOST" , "localhost");
+				 define("DEFAULT_DB_PASS" , "Bulldog12!");
+				 define("DEFAULT_DB_USER" , "root");
+				 define("DEFAULT_DB" , "arcfolio");
 				 
 				if($db == '')		{  $db = DEFAULT_DB;};
 				if($dbHost == '')	{  $dbHost = DEFAULT_DB_HOST;};
@@ -88,6 +88,9 @@ function createFileFromChunks($temp_dir, $fileName, $chunkSize, $totalSize) {
 				
 				$connect = mysql_select_db($db, $link) or die ("ERROR: mysqlConnector unable to connect to db. #2");
 				
+		//		$sql = mysql_query("INSERT INTO  `arcfolio`.`images` (`name`, `filetype` , `tabId`,`ownerId`) VALUES ('cat', 'jpg',  '1',  '81')") or die(mysql_error("error error")); 
+		
+				
 			
 				
 			$userId = $_POST['userId'];
@@ -95,36 +98,36 @@ function createFileFromChunks($temp_dir, $fileName, $chunkSize, $totalSize) {
 			
 			if(isset($_POST['mainImg']))
 			{
-				//$sql = mysql_query("INSERT INTO  `thestark_arcfolio`.`images` (`name`, `filetype` , `main`,`ownerId`) VALUES ('$fileName', '$extension',  TRUE,  '$userId')") or die(mysql_error()); 
+				//$sql = mysql_query("INSERT INTO  `arcfolio`.`images` (`name`, `filetype` , `main`,`ownerId`) VALUES ('$fileName', '$extension',  TRUE,  '$userId')") or die(mysql_error()); 
 			}
 			else 
 			if(isset($_POST['pdf']))
 			{
-					//$sql = mysql_query("INSERT INTO  `thestark_arcfolio`.`images` (`name`, `filetype` , `pdf`,`ownerId`) VALUES ('$fileName', '$extension',  TRUE,  '$userId')") or die(mysql_error()); 
+				//	$sql = mysql_query("INSERT INTO  `arcfolio`.`images` (`name`, `filetype` , `pdf`,`ownerId`) VALUES ('$fileName', '$extension',  TRUE,  '$userId')") or die(mysql_error()); 
 			}
 			else 
 			{
 				$tabId = $_POST['tabId'];
-				$sql = mysql_query("INSERT INTO  `thestark_arcfolio`.`images` (`name`, `filetype` , `tabId`,`ownerId`) VALUES ('$fileName', '$extension',  '$tabId',  '$userId')") or die(mysql_error()); 
+				$sql = mysql_query("INSERT INTO  `arcfolio`.`images` (`name`, `filetype` , `tabId`,`ownerId`) VALUES ('$fileName', '$extension',  '$tabId',  '$userId')") or die(mysql_error()); 
 			}
 			$imgId = mysql_insert_id();
 			// continue only if this is a JPEG image
 			if ( strtolower($info['extension']) == 'pdf' )
 			{
-				$sql = mysql_query("INSERT INTO  `thestark_arcfolio`.`images` (`name`, `filetype` , `pdf`,`ownerId`) VALUES ('$fileName', '$extension',  TRUE,  '$userId')") or die(mysql_error()); 
+				//$sql = mysql_query("INSERT INTO  `arcfolio`.`images` (`name`, `filetype` , `pdf`,`ownerId`) VALUES ('$fileName', '$extension',  TRUE,  '$userId')") or die(mysql_error()); 
 			  
 				if(isset($_POST['pdf']))
 				{
-					$destdir = '../users/'.$userId.'/resume.pdf';
+					$destdir = '../users/81/resume.pdf';
 					if(file_exists($destdir))
 					{unlink($destdir);}	
-					move_uploaded_file($tempfile, $destdir);		
+					rename($tempfile, $destdir);		
 					unlink($tempfile);
 				}
 				else
 				{
-					$destdir = '../users/'.$userId.'/pdfs/'.$imgId.'.pdf';	
-					move_uploaded_file($tempfile, $destdir);		
+					$destdir = '../users/81/pdfs/resume.pdf';	
+					rename($tempfile, $destdir);		
 					unlink($tempfile);
 				}
 				

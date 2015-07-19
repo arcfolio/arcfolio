@@ -10,7 +10,7 @@ class encryptPassword
 	public function __construct($password)
 	{
 		//generate 16 random chars//
-		$this->salt = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
+		$this->salt = uniqid(mt_rand(), true);
 		
 		//append salt to password, run md5 hashing algorithm.//
 		$this->encyptedPassword = md5($password . $this->salt);

@@ -28,7 +28,7 @@ if(isset($_GET['loginData']))
 }
 else
 {
-	echo 'no data found';
+	echo ' no data found here. ';
 	exit();
 }
 ?>

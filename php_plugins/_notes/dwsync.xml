@@ -9,4 +9,16 @@
 <file name="updateimg.php" server="ftp.thestarkmarket.com/arcfolio/" local="130799342685802797" remote="130799522400000000" Dst="2" />
 <file name="settings.php" server="ftp.thestarkmarket.com/arcfolio/" local="130804110132018495" remote="130804290000000000" Dst="2" />
 <file name="updatesetting.php" server="ftp.thestarkmarket.com/arcfolio/" local="130804135370380006" remote="130804315200000000" Dst="2" />
+<file name="createAccount.php" server="50.112.178.111" local="130764761332033915" remote="130815883800000000" Dst="2" />
+<file name="IAL.php" server="50.112.178.111" local="130815743850694227" remote="130815923400000000" Dst="2" />
+<file name="imgs.php" server="50.112.178.111" local="130793347132660124" remote="130815883800000000" Dst="2" />
+<file name="login.php" server="50.112.178.111" local="130815726788344087" remote="130815906600000000" Dst="2" />
+<file name="settings.php" server="50.112.178.111" local="130804110132018495" remote="130815883800000000" Dst="2" />
+<file name="tabs.php" server="50.112.178.111" local="130792489416448884" remote="130815883800000000" Dst="2" />
+<file name="updateimg.php" server="50.112.178.111" local="130799342685802797" remote="130815883800000000" Dst="2" />
+<file name="updatesetting.php" server="50.112.178.111" local="130804135370380006" remote="130815883800000000" Dst="2" />
+<file name="updatetab.php" server="50.112.178.111" local="130792958425980601" remote="130815883800000000" Dst="2" />
+<file name="mainimg.php" server="50.112.178.111" local="130816360151576721" remote="130816539600000000" Dst="2" />
+<file name="sendReported.php" server="50.112.178.111" local="130816630496544514" remote="130816810200000000" Dst="2" />
+<file name="autologin.php" server="50.112.178.111" local="130817935234768556" remote="130818114600000000" Dst="2" />
 </dwsync>

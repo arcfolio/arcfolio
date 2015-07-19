@@ -8,17 +8,17 @@
  **/
  
  //define some constants to be used sitewide.//
- define('DEFAULT_DB_HOST' , 'localhost');
- define('DEFAULT_DB_PASS' , 'arcfolio12');
- define('DEFAULT_DB_USER' , 'thestark_AFMaker');
- define('DEFAULT_DB' , 'thestark_arcfolio');
+ define("DEFAULT_DB_HOST" , "localhost");
+ define("DEFAULT_DB_PASS" , "Bulldog12!");
+ define("DEFAULT_DB_USER" , "root");
+ define("DEFAULT_DB" , "arcfolio");
  
  //configure autoloader.//
 function my_autoloader($class) {
-	require('../php_library/'.$class.'.php');
+	require("../php_library/".$class.".php");
 }
 
-spl_autoload_register('my_autoloader');
+spl_autoload_register("my_autoloader");
 
 
 ?>

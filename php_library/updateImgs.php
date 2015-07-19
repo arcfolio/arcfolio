@@ -14,7 +14,7 @@ class updateImgs
 		$id = $data['id'];
 		$type = $data['type'];
 		$name = $data['name'];
-		$desc = $data['desc'];
+		$description = $data['description'];
 		$ownerId = $data['ownerId'];
 		
 		
@@ -26,7 +26,7 @@ class updateImgs
 			{
 				if($type == true)
 				{
-					if(mysql_query("UPDATE  `thestark_arcfolio`.`images` SET  `name` =  '$name' WHERE  `images`.`id` ='$id';"))// &&
+					if(mysql_query("UPDATE  `arcfolio`.`images` SET  `name` =  '$name' WHERE  `images`.`id` ='$id';"))// &&
 					//mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
 					{
 						$this->result = true;
@@ -36,7 +36,7 @@ class updateImgs
 				}
 				else
 				{
-					if(mysql_query("UPDATE  `thestark_arcfolio`.`images` SET  `desc` =  '$desc' WHERE  `images`.`id` ='$id';"))// &&
+					if(mysql_query("UPDATE  `arcfolio`.`images` SET  `description` =  '$description' WHERE  `images`.`id` ='$id';"))// &&
 					//mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
 					{
 						$this->result = true;

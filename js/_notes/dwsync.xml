@@ -12,4 +12,16 @@
 <file name="ngProgress.js" server="ftp.thestarkmarket.com/arcfolio/" local="130793892419976948" remote="130794072000000000" Dst="2" />
 <file name="uploader.php" server="ftp.thestarkmarket.com/arcfolio/" local="130794088448872163" remote="130794268200000000" Dst="2" />
 <file name="settingsService.js" server="ftp.thestarkmarket.com/arcfolio/" local="130804112097138950" remote="130804291800000000" Dst="2" />
+<file name="sessionsService.js" server="50.112.178.111" local="130816274704537248" remote="130816454400000000" Dst="2" />
+<file name="tabsService.js" server="50.112.178.111" local="130792958445132130" remote="130815600000000000" Dst="2" />
+<file name="imgService.js" server="50.112.178.111" local="130793343180371434" remote="130815600000000000" Dst="2" />
+<file name="settingsService.js" server="50.112.178.111" local="130804112097138950" remote="130815600000000000" Dst="2" />
+<file name="angular-recaptcha.min.js" server="50.112.178.111" local="130758663218669082" remote="130815600000000000" Dst="2" />
+<file name="ng-flow-standalone.js" server="50.112.178.111" local="130778539030440199" remote="130815600000000000" Dst="2" />
+<file name="ngProgress.js" server="50.112.178.111" local="130793892419976948" remote="130815600000000000" Dst="2" />
+<file name="customFilters.js" server="50.112.178.111" local="130791985611663280" remote="130815600000000000" Dst="2" />
+<file name="app.js" server="50.112.178.111" local="130818059102906084" remote="130818238800000000" Dst="2" />
+<file name="angular-recaptcha.js" server="50.112.178.111" local="130758663218158684" remote="130815883800000000" Dst="2" />
+<file name="myPopoverTemplate.html" server="50.112.178.111" local="130772457830190354" remote="130815883800000000" Dst="2" />
+<file name="uploader.php" server="50.112.178.111" local="130794088448872163" remote="130815883800000000" Dst="2" />
 </dwsync>

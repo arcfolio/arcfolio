@@ -33,7 +33,7 @@
 	};
 	
 	this.isCompany = function() {
-		if(this.company != ""){	return true;	}else{	return false;	}
+		if(this.company != null){	return true; 	}else{	return false;	}
 	};
 	
 	

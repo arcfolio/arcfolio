@@ -127,22 +127,17 @@ opacity:1;
 }
 
 
-@font-face {
-    font-family:"Steelfishrg";
-    src: url("agencyr.eot") /* EOT file for IE */
-}
-@font-face {
-    font-family:"AgencyFBRegular";
-    src: url("agencyr.ttf") /* TTF file for CSS3 browsers */
-}
 
 
 h1, .h1, h2, .h2, h3, .h3 {
     margin-top: 20px;
     color: #1b2527;
+	font-family: 'Oswald', sans-serif;
 }
 
-p, .p { color: #87b9c3;}
+p, .p { color: #87b9c3;
+		font-family: 'Oswald', sans-serif;
+}
 
 
 
@@ -423,21 +418,12 @@ body
 }
 
 .nav {
-    bottom: -4px;
-    display: block;
-    height: 48px;
-    left: 0;
-    margin: 0 auto;
-    padding: 1em 0 0.8em;
-    position: absolute;
-    right: 0;
     text-align: center;
     width: 100%;
     z-index: 5;
 }
 .nav li {
-    border: 5px solid #AAAAAA;
-    border-radius: 5px;
+    border: 2px solid #AAAAAA;
     cursor: pointer;
     display: inline-block;
     height: 30px;
@@ -446,7 +432,7 @@ body
     width: 50px;
 }
 .nav li.active {
-    border: 5px solid #FFFFFF;
+    border: 2px solid #FFFFFF;
 }
 .nav li img {
     width: 100%;
@@ -472,7 +458,6 @@ body
     transform-style: preserve-3d;
 }
 .slide {
-    position: absolute;
     top: 0;
     left: 0;
 }

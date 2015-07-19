@@ -27,7 +27,7 @@ class updateSettings
 			{
 				if($type == 'skill1')
 				{
-					if(mysql_query("UPDATE  `thestark_arcfolio`.`settings` SET  `skill1` =  '$skill1' WHERE  `settings`.`userId` ='$ownerId';"))// &&
+					if(mysql_query("UPDATE  `arcfolio`.`settings` SET  `skill1` =  '$skill1' WHERE  `settings`.`userId` ='$ownerId';"))// &&
 					//mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
 					{
 						$this->result = true;
@@ -38,7 +38,7 @@ class updateSettings
 				else
 				if($type == 'skill2')
 				{
-					if(mysql_query("UPDATE  `thestark_arcfolio`.`settings` SET  `skill2` =  '$skill2' WHERE  `settings`.`userId` ='$ownerId';"))// &&
+					if(mysql_query("UPDATE  `arcfolio`.`settings` SET  `skill2` =  '$skill2' WHERE  `settings`.`userId` ='$ownerId';"))// &&
 					//mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
 					{
 						$this->result = true;
@@ -49,7 +49,7 @@ class updateSettings
 				else
 				if($type == 'skill3')
 				{
-					if(mysql_query("UPDATE  `thestark_arcfolio`.`settings` SET  `skill3` =  '$skill3' WHERE  `settings`.`userId` ='$ownerId';"))// &&
+					if(mysql_query("UPDATE  `arcfolio`.`settings` SET  `skill3` =  '$skill3' WHERE  `settings`.`userId` ='$ownerId';"))// &&
 					//mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
 					{
 						$this->result = true;
@@ -60,7 +60,7 @@ class updateSettings
 				else
 				if($type == 'skill4')
 				{
-					if(mysql_query("UPDATE  `thestark_arcfolio`.`settings` SET  `skill4` =  '$skill4' WHERE  `settings`.`userId` ='$ownerId';"))// &&
+					if(mysql_query("UPDATE  `arcfolio`.`settings` SET  `skill4` =  '$skill4' WHERE  `settings`.`userId` ='$ownerId';"))// &&
 					//mysql_query("UPDATE  `thestark_arcfolio`.`tabs` SET  `lastUpdated` =  NOW() WHERE  `tabs`.`id` ='$id';"))
 					{
 						$this->result = true;

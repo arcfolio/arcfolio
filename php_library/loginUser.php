@@ -9,11 +9,18 @@
 class loginUser
 {
 	
-	public function __construct($email, $password, $remember)
+	public function __construct($email, $password, $remember, $isCookie = FALSE)
 	{
 		
 		// check that user exists in db and pass correct //
-		$sql = mysql_query("SELECT * FROM members WHERE `email`='$email'  AND `deleted`='0' LIMIT 1");
+		if($isCookie == TRUE)
+		{
+			$sql = mysql_query("SELECT * FROM members WHERE `id`='$email'  AND `deleted`='0' LIMIT 1");
+			}
+		else
+		{
+			$sql = mysql_query("SELECT * FROM members WHERE `email`='$email'  AND `deleted`='0' LIMIT 1");
+		}
 
 		$sqlnum = mysql_num_rows($sql);
 		// if db only has one entry.. //
@@ -21,15 +28,17 @@ class loginUser
 		{
 			// create session //
 			$row = mysql_fetch_array($sql);
-
-			if(isset($password) && !isset($checkpass))
-			{	
-				$checkpass = $row['password'];
+			$activate = $row['activated'];
+			$checkpass = $row['password'];
+			
+			if($isCookie == false)
+			{
 				$salt = $row['salt'];
 				$password = md5($password.$salt);
 			}
 			
-			if($checkpass == $password)
+			
+			if($checkpass == $password && $activate == TRUE)
 			{
 				//if($row['varified'] == 1)
 				{
@@ -45,12 +54,12 @@ class loginUser
 					$_SESSION['company']			= $row['company'];
 					
 					if(file_exists("../users/".$id."/main.jpg"))
-					{	$_SESSION['mainimg'] = 	"http://www.thestarkmarket.com/arcfolio/users/".$id."/main.jpg"; }
+					{	$_SESSION['mainimg'] = 	"http://www.arcfolio.com/users/".$id."/main.jpg"; }
 					else
 					if(file_exists("../users/".$id."/main.png"))
-					{	$_SESSION['mainimg'] = 	"http://www.thestarkmarket.com/arcfolio/users/".$id."/main.jpg"; }
+					{	$_SESSION['mainimg'] = 	"http://www.arcfolio.com/users/".$id."/main.png"; }
 					else
-					{	$_SESSION['mainimg'] = 	"http://www.thestarkmarket.com/arcfolio/res/images/cover1.jpg"; }
+					{	$_SESSION['mainimg'] = 	"http://www.arcfolio.com/res/images/cover1.jpg"; }
 					
 					
 					if($remember == 'asdasdf')
@@ -113,30 +122,6 @@ class loginUser
 				else{
 					
 					
-				
-				if (isset($_COOKIE['idCookie'])) 
-				{
-					
-					setcookie("PHPSESSID", '', time()-42000000, '/');
-					setcookie("PHPSESSID", '', time()-42000000, '/');
-					setcookie("_ga", '', time()-42000000, '/');
-					
-					setcookie("idCookie", '', time()-4200000, '/');
-					
-					setcookie("passCookie", '', time()-4200000, '/');
-						
-					unset($_COOKIE['idCookie']);
-					unset($_COOKIE['passCookie']);
-					
-					// Destroy the session variables
-					
-					session_destroy();
-					$_SESSION = array();
-
-				}
-					
-					
-					
 					 $this->strings = json_encode(array(
       					"failure1" => true));
 						
@@ -145,32 +130,9 @@ class loginUser
 				else{
 					
 					
-				
-				if (isset($_COOKIE['idCookie'])) 
-				{
-					
-					setcookie("PHPSESSID", '', time()-42000000, '/');
-					setcookie("PHPSESSID", '', time()-42000000, '/');
-					setcookie("_ga", '', time()-42000000, '/');
-					
-					setcookie("idCookie", '', time()-4200000, '/');
-					
-					setcookie("passCookie", '', time()-4200000, '/');
-						
-					unset($_COOKIE['idCookie']);
-					unset($_COOKIE['passCookie']);
-					
-					// Destroy the session variables
-					
-					session_destroy();
-					$_SESSION = array();
-
-				}
-					
-					
 					
 					 $this->strings = json_encode(array(
-      					"failure" => true));
+      					"failure2" => true));
 						
 					}
 			
